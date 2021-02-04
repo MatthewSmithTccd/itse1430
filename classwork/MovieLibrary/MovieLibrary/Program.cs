@@ -16,6 +16,36 @@ namespace MovieLibrary
             {
                 char option = DisplayMainMenu();
 
+                // Switch statement is equivalent to a series of if-else if with equality checks
+                //      switch statement ::= switch(E) { case-statement* [default-statement] };
+                // case-statement ::= case E : S;
+                // default-statement ::= default : S ;
+                //
+                // case label rules:
+                //      - Must be constant values : literals or simple expressions of constant values
+                //      - Must be unique
+                //      - Can be a string
+                // Fallthrough behavior
+                //      - Not allowed
+                //      - Every case statement must end with either break or return statement
+                //      - Allowed if case label has no statement (including semicolon)
+                // Styling rules
+                //      - Single statement (excluding break) no block statement neeeded
+                //      - Multiple statements (excluding break) should use block statement to avoid compiler errors
+
+                /*switch (10)
+                {
+                    case 10: S1; S2; S3; break;
+                    case 12:
+                    {
+                        int x; x = 10;
+                        break;
+                    };
+                    case 13: SByte; break;
+                }
+                */
+
+                /*
                 if (option == 'A')
                     AddMovie();
                 else if (option == 'V')
@@ -24,6 +54,15 @@ namespace MovieLibrary
                     done = true;
                 else
                     DisplayError("Unknown command");
+                */
+                switch (option)
+                {
+                    case 'A': AddMovie(); break;
+                    case 'V': ViewMovie(); break;
+                    case 'Q': done = true; break;
+
+                    default: DisplayError("Unknown command"); break;
+                };
 
             } while (!done);
         }
@@ -49,12 +88,24 @@ namespace MovieLibrary
                 string input = Console.ReadLine();
 
                 //TODO: Validate input better
-                if (input == "A" || input == "a")
+                /*if (input == "A" || input == "a")
                     return 'A';
                 else if (input == "Q" || input == "q")
                     return 'Q';
                 else if (input == "V" || input == "v")
                     return 'V';
+                */
+                switch (input)
+                {
+                    case "A": 
+                    case "a": return 'A';
+
+                    case "Q": 
+                    case "q": return 'V';
+
+                    case "V": 
+                    case "v": return 'v';
+                };
 
                 DisplayError("Invalid option");
             } while (true);
@@ -95,12 +146,16 @@ namespace MovieLibrary
         static void ViewMovie()
         {
             //TODO: Format
-            Console.WriteLine(title);
-            Console.WriteLine(description);
-            Console.WriteLine(releaseYear);
-            Console.WriteLine(runLength);
-            Console.WriteLine(rating);
-            Console.WriteLine(isClassic);
+            Console.WriteLine($"{title} ({releaseYear})");
+            if (runLength > 0)
+                Console.WriteLine($"Running Time: {runLength} minutes");
+            if (!String.IsNullOrEmpty(rating))
+                Console.WriteLine($"MPAA Rating: {rating}");
+
+            Console.WriteLine($"Classic? {(isClassic ? 'Y' : 'N')}");
+
+            if (!String.IsNullOrEmpty(description))
+                Console.WriteLine(description);
         }
 
         static bool ReadBoolean()
@@ -144,8 +199,12 @@ namespace MovieLibrary
 
             do
             {
+                //Type inferencing - compiler infers type based upon assignment
+                // var can be used if it's inferred what type of variable will be inputted (allowed only with local variables
+                // personal preference, used to save some time, when doing code maintence you won't have to change the type
+
                 //Keep prompting until valid value
-                string input = Console.ReadLine();
+                var input = Console.ReadLine();
 
                 //TODO: fix so it doesn't crash if not integer
                 //Convert string to int
@@ -162,7 +221,7 @@ namespace MovieLibrary
                 //int result;
                 //if (Int32.TryParse(input, out result))
                 //  int result;
-                if (Int32.TryParse(input, out int result))  //Inline variable declaration makes it clear that the result only matters in this function
+                if (Int32.TryParse(input, out var result))  //Inline variable declaration makes it clear that the result only matters in this function
                 {
                     //Make sure it is at least minValue
                     if (result >= minimumValue)
@@ -257,6 +316,87 @@ namespace MovieLibrary
             // descriptive verbs (e.g. Get, Display ..., Calculate ... )
             // Use Pascal casing
             // no abbreviations or acronyms
+        }
+
+        void DemoString()
+        {
+            //Conversion to string E.ToString();
+            // Console.WriteLine(10); -> Console.WriteLine(10.ToString()); behind the scenes console write line is doing ToString
+            int hours = 10;
+            string hourString = hours.ToString();
+            hourString = 10.ToString();
+
+            //String literals ""
+            //escape sequence - \? inside a string literal, have special meaning to the compiler
+            //  \n - new line (you will rarely use this in csharp)
+            //  \t - horizontal tab
+            //  \\ - slash (e.g. C:\\temp\\test.txt"   slashes count once when counting the amount of characters in the string
+            //  \" - double quote (e.g. "Hello \"Bob\"")
+            //  \' - single quote in character
+            //  \x## - hex code equivalent
+
+            string stringLiteral = "Hello" + "World";
+            stringLiteral = "Hello\nWorld";
+
+            //Verbatim syntax - escape sequence ignored
+            string filePath = "C:\\Temp\\test.txt";
+            string filePath2 = @"C:\Temp\test.txt";
+
+            //Empty string
+            //null and empty string are not the same
+            string emptyString = "";
+            string defaultString = null;
+            bool areEqual = emptyString == defaultString;   //false
+            string emptyString2 = String.Empty;      // "" == String.Empty
+
+            //Checking for empty, use String.IsNullOrEmpty()
+            bool isEmpty = emptyString == "";
+            bool isEmpty2 = emptyString == "" || emptyString == null;   //if empty or null
+            bool isEmptyPreferred = String.IsNullOrEmpty(emptyString);  //Handles both - USE THIS METHOD returns true if empty or null, false if it has any other value
+
+            // String concatenation
+            //  +
+            //  String.Concat()
+            //  String.Join
+            string first = "Hello", second = "World";
+
+            // start with 3 strings (first + " "), (first + " " + second), (now we have 5 strings in memory)
+            string concatOp = first + " " + second;     //Compiler rewrites this as String.Concat() to optimize
+            string concatFunction = String.Concat(first, " ", second);  //More optimized for performance
+            string joinFunction = String.Join(' ', first, second);
+
+            //  Strings are immutable!!!! Value Can't be changed
+            //      10 + 2 = 12
+            string immutableString = "Hello";
+            immutableString += " ";     // two strings: "Hello", "Hello "
+            immutableString += "World"; // three strings "Hello", "Hello ", "Hello World"
+
+            // String formatting
+            //      The result of 4 + 5 is 9
+
+            int x = 4, y = 5;
+
+            // 1) String concatenation  - ugly and lot to type
+            string format1 = "The result of " + x + " _ " + y + " = " + (x+y);
+
+            // 2) String Format - more readable than string concat
+            //          - runtime overhead
+            //          - missing arguments then crashes
+            //      Format specifiers follow the ordinal :
+            String format2 = String.Format("The result {0:00} + {1:N2} = {2}", x, y, (x+y));
+
+            Console.WriteLine(format2);
+            Console.WriteLine("The result {0} + {1} = {2}", x, y, (x+y));
+
+            // 3) String interpolation - let the compiler do it (Preferred Method)
+            //      Only works with string literals
+            //      Still has the runtime overhead
+            string format3 = $"The result of {x:00} + {y:N2} = {x+y}";
+
+            string formattedValue = x.ToString("00");
+
+            decimal price = 8500;
+            string priceString = price.ToString("C");   // $8,500.00
         }
 
         //Data to collect - title, genre, release year, actors, runtime, director, rating
