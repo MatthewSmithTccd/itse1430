@@ -1,7 +1,7 @@
 ﻿/*
  * Budget
  * ITSE 1430
- * Semester 2021 Spring
+ * Spring 2021
  * Matthew Smith
  */
 
@@ -13,7 +13,7 @@ namespace Budget
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Budget, ITSE 1430, Spring 2021, Matthew Smith");
         }
     }
 }
