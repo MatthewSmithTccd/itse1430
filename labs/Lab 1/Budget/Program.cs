@@ -190,7 +190,7 @@ namespace Budget
                 Console.WriteLine("Enter account name: ");
                 accountName = Console.ReadLine();
 
-                if (accountName == "")his
+                if (accountName == "")
                     DisplayError("Account Name Required");
 
             } while (accountName == "");
