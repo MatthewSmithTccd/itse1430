@@ -96,7 +96,6 @@ namespace Budget
 
         static void DepositFunds()
         {
-            
             Console.Write("How much would you like to deposit? ");
             decimal depositAmount = ReadDecimal(0);
 
@@ -150,7 +149,38 @@ namespace Budget
 
         static void WithdrawFunds ()
         {
+            Console.Write("How much would you like to withdraw? ");
+            decimal withdrawAmount = ReadDecimal(0);
 
+            if (withdrawAmount > 0 && withdrawAmount < startingBalance)
+            {
+                startingBalance = startingBalance - withdrawAmount;  //adds deposit amount to balance
+
+                string withdrawDescription = "";
+
+                do
+                {
+                    Console.Write("Enter a description: ");
+                    withdrawDescription = Console.ReadLine();
+
+                    if (withdrawDescription == "")
+                        DisplayError("Description Required.");
+
+                } while (withdrawDescription == "");
+
+                Console.Write("Enter a Category (Optional): ");
+                string depositCategory = Console.ReadLine();
+
+                Console.Write("Enter check number (Optional): ");
+                string checkNumber = Console.ReadLine();
+                Int32.TryParse(checkNumber, out int intCheckNumber);
+
+                Console.Write("Date of deposit MM/dd/yyyy (Optional): ");
+                DateTime depositDate = ReadDate();
+
+                Console.Write("Balance successfully updated.  Returning to Main Menu.\n");
+
+            } else DisplayError("Withdraw amount can't be 0 or greater than balance.");
         }
 
         static void PromptUser ()
