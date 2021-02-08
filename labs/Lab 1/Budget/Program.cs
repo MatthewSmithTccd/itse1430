@@ -29,7 +29,7 @@ namespace Budget
                     case 'D': DepositFunds(); break;
                     case 'W': WithdrawFunds(); break;
                     //TODO: Only Allow Y or y or N or n 
-                    case 'Q': if (ValidateQuit()) done = true; else done = false;  break;                             //done = true; break;
+                    case 'Q': if (ValidateQuit()) done = true; else done = false;  break;                            
 
                     default: DisplayError("Unknown command"); break;
                 };
@@ -185,13 +185,27 @@ namespace Budget
 
         static void PromptUser ()
         {
-            Console.WriteLine("Enter account name: ");
-            accountName = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Enter account name: ");
+                accountName = Console.ReadLine();
 
+                if (accountName == "")his
+                    DisplayError("Account Name Required");
 
-            Console.WriteLine("Enter account number: ");
-            //TODO: validate account is 12 chars long, only digits 0-9, Doesnt start or end with a zero.
-            accountNumber = Console.ReadLine();
+            } while (accountName == "");
+
+            do
+            {
+                Console.WriteLine("Enter account number: ");
+                //TODO: validate account is 12 chars long, only digits 0-9, Doesnt start or end with a zero.
+                accountNumber = Console.ReadLine();
+
+                if (accountNumber == "")
+                    DisplayError("Account Number Required");
+
+            } while (accountNumber == "");
+
 
             Console.WriteLine("Enter starting balance: ");
             startingBalance = ReadDecimal(0);
