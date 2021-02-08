@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Globalization;
 
 namespace Budget
 {
@@ -28,7 +29,7 @@ namespace Budget
                     case 'D': DepositFunds(); break;
                     case 'W': WithdrawFunds(); break;
                     //TODO: Only Allow Y or y or N or n 
-                    case 'Q': if (ValidateQuit()) done = true; else DisplayMainMenu(); break;                             //done = true; break;
+                    case 'Q': if (ValidateQuit()) done = true; else done = false;  break;                             //done = true; break;
 
                     default: DisplayError("Unknown command"); break;
                 };
@@ -43,13 +44,20 @@ namespace Budget
 
         private static bool ValidateQuit()
         {
-            Console.WriteLine("Are you sure you would like to quit?(Y/N) ");
-            string quit = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Are you sure you would like to quit?(Y/N) ");
+                string quit = Console.ReadLine();
 
-            if (quit == "Y" || quit =="y")
-                return true;
-            else
-                return false;
+
+                if (quit == "Y" || quit == "y")
+                    return true;
+                else if (quit == "N" || quit == "n")
+                    return false;
+                else
+                    DisplayError("Please enter Y or N ");
+            } while (true);
+             
                 
         }
 
@@ -88,7 +96,56 @@ namespace Budget
 
         static void DepositFunds()
         {
+            
+            Console.Write("How much would you like to deposit? ");
+            decimal depositAmount = ReadDecimal(0);
 
+            if (depositAmount > 0)
+            {
+                startingBalance = startingBalance + depositAmount;  //adds deposit amount to balance
+
+                string depositDescription = "";
+
+                do
+                {
+                    Console.Write("Enter a description: ");
+                    depositDescription = Console.ReadLine();
+
+                    if (depositDescription == "")
+                        DisplayError("Description Required.");
+
+                } while (depositDescription == "");
+
+                Console.Write("Enter a Category (Optional): ");
+                string depositCategory = Console.ReadLine();
+
+                Console.Write("Enter check number (Optional): ");
+                string checkNumber = Console.ReadLine();
+                Int32.TryParse(checkNumber, out int intCheckNumber);
+
+                Console.Write("Date of deposit MM/dd/yyyy (Optional): ");
+                DateTime depositDate = ReadDate();
+
+                Console.Write("Balance successfully updated.  Returning to Main Menu.\n");
+            }
+        }
+
+        static DateTime ReadDate ()
+        {  
+            do
+            {
+                var input = Console.ReadLine();
+                string dateFormat = "MM/dd/yyyy" ;
+                DateTime validDay;
+
+                if (DateTime.TryParseExact(input, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out validDay))
+                    return validDay;
+                else if (input == "")
+                    return validDay;
+                else
+                    DisplayError("Not a valid date (mm/dd/yyyy)");
+
+            } while (true);
         }
 
         static void WithdrawFunds ()
@@ -112,9 +169,11 @@ namespace Budget
 
         static void DisplayAccountInfo ()
         {
-            Console.WriteLine("\nAccount Name: " + accountName);
+            Console.WriteLine("\nAccount Information");
+            Console.WriteLine("Account Name: " + accountName);
             Console.WriteLine("Account Number: " + accountNumber);
             Console.WriteLine("Account Balance: $" + startingBalance);
+            Console.WriteLine("");
         }
         
 
@@ -142,6 +201,28 @@ namespace Budget
             } while (true);
         }
 
+        static int ReadInt32 ()
+        {
+            return ReadInt32(Int32.MinValue);
+        }
+
+        static int ReadInt32 ( int minimumValue )
+        {
+            do
+            {
+                var input = Console.ReadLine();
+
+                if (Int32.TryParse(input, out var result))  
+                {
+                    //Make sure it is at least minValue
+                    if (result >= minimumValue)
+                        return result;
+                    else
+                        DisplayError("Value must be at least " + minimumValue);
+                } else
+                    DisplayError("Value must be numeric");
+            } while (true);
+        }
 
         private static void DisplayError (string message)
         {
