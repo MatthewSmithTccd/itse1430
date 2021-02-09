@@ -5,12 +5,14 @@
  */
 using System;
 
-namespace MovieLibrary
+//Renamed to match project name
+namespace MovieLibrary.ConsoleHost
 {
-    class Program
+    class Program  //MovieLibrary.Program
     {
         static void Main()  //string[] args
         {
+            //Fully qualified type name: System.Boolean   [namespace].[type]
             bool done = false;
             do
             {
@@ -76,7 +78,8 @@ namespace MovieLibrary
             //Display output - equivalent to cout
             //Console.Write(); for no new line
             Console.WriteLine("Movie Library"); //String literals are enclosed in double quotes
-            Console.WriteLine("-------------");
+            //Console.WriteLine("-------------");
+            Console.WriteLine("".PadLeft(20, '-'));
 
             Console.WriteLine("A) dd Movie");
             Console.WriteLine("V) iew Movie");
@@ -167,9 +170,24 @@ namespace MovieLibrary
 
                 //TODO: Case does not matter
                 // input == "Y" || "y" --- Not Correct
-                if (input == "Y" || input == "y")
+                //Comparison 1
+                //if (input == "Y" || input == "y")
+                //    return true;
+                //else if (input == "N" || input == "n")
+                //    return false;
+
+                //Should use switch but will play around with comparison
+                // Not really recommended...
+                //Comparison 2
+                //if (input.ToUpper() == "Y")
+                //    return true;
+                //else if (input.ToLower() == "n")
+                //    return false;
+
+                //Comparison 3
+                if (String.Compare(input, "Y", true) == 0)
                     return true;
-                else if (input == "N" || input == "n")
+                else if (String.Compare(input, "N", true) == 0)
                     return false;
 
                 DisplayError("Please enter either Y or N");
@@ -397,6 +415,50 @@ namespace MovieLibrary
 
             decimal price = 8500;
             string priceString = price.ToString("C");   // $8,500.00
+
+            // Common string functions
+            //      String.<function>
+            //      <string>.<function>
+            int len = priceString.Length;   // Length, in chars, of string
+
+            // Casing
+            var name = "Bob";
+            string upperName = name.ToUpper();  //Upper cases string
+            string lowerName = name.ToLower();  //Lower cases string
+
+            // Comparison
+            // 1)"a" == "A"   //false
+            // int to boolean functions ::>
+            //      < 0 means a < b
+            //      == 0 means a == b
+            //      > 0 means a > b
+            // 2) // string.CompareTo(string) -> int,  case sensitive
+            var areEqualStrings1 = name.CompareTo("bob") == 0;
+
+            // 3) String.Compare(str, str) -> int
+            //      String.Compare(str, str, bool ) -> int
+            var areEqualStrings2 = String.Compare(name, "bob", true) == 0; // Case insensitive
+            var areEqualStrings3 = String.Compare(name, "bob", StringComparison.CurrentCultureIgnoreCase) == 0; // Case insensitive
+
+            // Padding / Trimming
+            //      <string>.Trim() -> string with all whitespace removed from front and back
+            //      <string>.TrimStart() / TrimEnd() -> only from front and back
+            //      <string.PadLeft(width) / PadRight(width) -> adds spaces until given width
+            string trimmedString = name.Trim();
+            string trimmedPath = @"C:\Temp\test\folder1\".Trim('\\', ' ', '\t');
+
+            string paddedString = name.PadLeft(10);
+
+            // Manipulate strings
+            string world = "Hello World".Substring(6);
+            string wor = "Hellow World".Substring(6, 3);
+            int index = "Hello World".IndexOf(' ');
+            
+
+            // Matching 
+            // USE THIS FOR CHECKING ACCOUNT NUMBER and .Length
+            bool startsWithSlash = @"\Temp\test.txt".StartsWith('\\');
+            bool endsWithSlash = @"\Temp\test.txt".EndsWith('\\');
         }
 
         //Data to collect - title, genre, release year, actors, runtime, director, rating
@@ -465,6 +527,19 @@ namespace MovieLibrary
             //          Foo(out arg); It is required by the language that all output parameters must be set, out types must have a value returned
             result = ReadInt32();
             result = Int32.Parse("123");
+
+            // Primitive types in .NET map to framework types (type aliasing)
+            // int -> Int32
+            // double -> Double
+            // short -> Int16
+            // bool -> Boolean
+            // char -> Char
+            int int1 = 10;
+            Int32 int2 = 20;
+            int1 = int2;        //When calling functions we use the formal type (Int32 etc.)
+
+            //result = int.Parse("123");  //Int32.Parse("123"); is the same thing
+            
 
         }
 
