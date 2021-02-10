@@ -14,7 +14,7 @@ namespace Budget
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Budget, ITSE 1430, Spring 2021, Matthew Smith\n");
+            Console.WriteLine("Budget \nITSE 1430 \nSpring 2021 \nMatthew Smith\n");
             PromptUser();
 
             bool done = false;
@@ -28,7 +28,6 @@ namespace Budget
                 {
                     case 'D': DepositFunds(); break;
                     case 'W': WithdrawFunds(); break;
-                    //TODO: Only Allow Y or y or N or n 
                     case 'Q': if (ValidateQuit()) done = true; else done = false;  break;                            
 
                     default: DisplayError("Unknown command"); break;
@@ -41,6 +40,27 @@ namespace Budget
         static string accountName;
         static string accountNumber;
         static decimal startingBalance;
+
+        static void PromptUser ()
+        {
+            do
+            {
+                Console.WriteLine("Account Information");
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Enter account name: ");
+                accountName = Console.ReadLine();
+
+                if (accountName == "")
+                    DisplayError("Account Name Required");
+
+            } while (accountName == "");
+
+            Console.WriteLine("Enter account number(12 digits): ");
+            accountNumber = ReadAccountNumber();    //Tests that account number is 12 characters long, only digits 0-9, does not start or end with 0
+
+            Console.WriteLine("Enter starting balance: ");
+            startingBalance = ReadDecimal(0);
+        }
 
         private static bool ValidateQuit()
         {
@@ -60,7 +80,6 @@ namespace Budget
              
                 
         }
-
 
         private static char DisplayMainMenu ()
         {
@@ -126,7 +145,8 @@ namespace Budget
                 DateTime depositDate = ReadDate();
 
                 Console.Write("Balance successfully updated.  Returning to Main Menu.\n");
-            }
+            } else
+                DisplayError("Value must be greater than 0. Returning to Main Menu.\n");
         }
 
         static DateTime ReadDate ()
@@ -152,7 +172,7 @@ namespace Budget
             Console.Write("How much would you like to withdraw? ");
             decimal withdrawAmount = ReadDecimal(0);
 
-            if (withdrawAmount > 0 && withdrawAmount < startingBalance)
+            if (withdrawAmount > 0 && withdrawAmount <= startingBalance)
             {
                 startingBalance = startingBalance - withdrawAmount;  //adds deposit amount to balance
 
@@ -183,32 +203,42 @@ namespace Budget
             } else DisplayError("Withdraw amount can't be 0 or greater than balance.");
         }
 
-        static void PromptUser ()
+        static string ReadAccountNumber ()
         {
             do
             {
-                Console.WriteLine("Enter account name: ");
-                accountName = Console.ReadLine();
+                string testAccountNumber = Console.ReadLine();
+                bool startsWithZero = testAccountNumber.StartsWith('0');
+                bool endsWithZero = testAccountNumber.EndsWith('0');
+                int accountNumberLength = testAccountNumber.Length;
+                bool containsNonNumerics = TestForLetters(testAccountNumber);
 
-                if (accountName == "")
-                    DisplayError("Account Name Required");
+                
 
-            } while (accountName == "");
+                if (testAccountNumber == "")
+                    DisplayError("Account Number Required\nTry again: ");
+                else if (containsNonNumerics)
+                    DisplayError("Account Numbers are 0-9 only.\nTry again: ");
+                else if (startsWithZero)
+                    DisplayError("Account Number may not start with a 0.\nTry again: ");
+                else if (endsWithZero)
+                    DisplayError("Account Number may not end with a 0.\nTry again: ");
+                else if (accountNumberLength < 12 || accountNumberLength > 12)
+                    DisplayError("Account Number must be 12 numbers.\nTry again: ");
+                else
+                    return testAccountNumber;
+            } while (true);
+            
+        }
 
-            do
+        static bool TestForLetters (string isDigits)    //helper function that returns true if the string contains letters
+        {
+            foreach (char c in isDigits)
             {
-                Console.WriteLine("Enter account number: ");
-                //TODO: validate account is 12 chars long, only digits 0-9, Doesnt start or end with a zero.
-                accountNumber = Console.ReadLine();
-
-                if (accountNumber == "")
-                    DisplayError("Account Number Required");
-
-            } while (accountNumber == "");
-
-
-            Console.WriteLine("Enter starting balance: ");
-            startingBalance = ReadDecimal(0);
+                if (c < '0' || c > '9')
+                    return true;
+            }
+            return false;
         }
 
         static void DisplayAccountInfo ()
@@ -216,7 +246,7 @@ namespace Budget
             Console.WriteLine("\nAccount Information");
             Console.WriteLine("Account Name: " + accountName);
             Console.WriteLine("Account Number: " + accountNumber);
-            Console.WriteLine("Account Balance: $" + startingBalance);
+            Console.WriteLine("Account Balance: " + startingBalance.ToString("C"));
             Console.WriteLine("");
         }
         
