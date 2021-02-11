@@ -45,8 +45,8 @@ namespace Budget
         {
             do
             {
-                Console.WriteLine("Account Information");
-                Console.WriteLine("-------------------");
+                Console.WriteLine("Enter Account Information");
+                Console.WriteLine("-------------------------");
                 Console.WriteLine("Enter account name: ");
                 accountName = Console.ReadLine();
 
@@ -77,8 +77,6 @@ namespace Budget
                 else
                     DisplayError("Please enter Y or N ");
             } while (true);
-             
-                
         }
 
         private static char DisplayMainMenu ()
@@ -138,8 +136,7 @@ namespace Budget
                 string depositCategory = Console.ReadLine();
 
                 Console.Write("Enter check number (Optional): ");
-                string checkNumber = Console.ReadLine();
-                Int32.TryParse(checkNumber, out int intCheckNumber);
+                int checkNumber = ReadInt32(0);
 
                 Console.Write("Date of deposit MM/dd/yyyy (Optional): ");
                 DateTime depositDate = ReadDate();
@@ -172,7 +169,7 @@ namespace Budget
             Console.Write("How much would you like to withdraw? ");
             decimal withdrawAmount = ReadDecimal(0);
 
-            if (withdrawAmount > 0 && withdrawAmount <= startingBalance)
+            if (withdrawAmount > 0 && withdrawAmount <= startingBalance)    
             {
                 startingBalance = startingBalance - withdrawAmount;  //adds deposit amount to balance
 
@@ -203,7 +200,8 @@ namespace Budget
             } else DisplayError("Withdraw amount can't be 0 or greater than balance.");
         }
 
-        static string ReadAccountNumber ()
+        //Reads in the account number and validates input
+        static string ReadAccountNumber ()  
         {
             do
             {
@@ -212,8 +210,6 @@ namespace Budget
                 bool endsWithZero = testAccountNumber.EndsWith('0');
                 int accountNumberLength = testAccountNumber.Length;
                 bool containsNonNumerics = TestForLetters(testAccountNumber);
-
-                
 
                 if (testAccountNumber == "")
                     DisplayError("Account Number Required\nTry again: ");
@@ -302,7 +298,5 @@ namespace Budget
         {
             Console.WriteLine(message);
         }
-
-        
     }
 }
