@@ -123,9 +123,17 @@ namespace MovieLibrary.ConsoleHost
         // Get movie from user
         static void AddMovie ()
         {
+            // Object creation
+            //  1. Allocates memory to store class fields
+            //  2. All fields are initialized to default or field initializer
+            //  3. Calls constructor
+            //  Only 1 constructor will ever be called
             // new T();
             // Movie* movie = new Movie();
-            Movie movie = new Movie();
+
+            Movie movie;
+            movie = new Movie("Default Title");
+            movie = new Movie();
 
             //Member access operator 
             //   member-access  ::= E . Member            
@@ -138,7 +146,7 @@ namespace MovieLibrary.ConsoleHost
             movie.Description = Console.ReadLine();
 
             Console.Write("Enter a release year: ");
-            movie.ReleaseYear = ReadInt32(1900);
+            movie.ReleaseYear = ReadInt32(Movie.MinimumReleaseYear);
 
             Console.Write("Enter the run length in minutes: ");
             movie.RunLength = ReadInt32(-1);
@@ -169,7 +177,7 @@ namespace MovieLibrary.ConsoleHost
             //movie.DoComplex(1970, true);
 
             // Readable but not writable
-            var age = movie.GetAgeInYears;
+            var age = movie.AgeInYears;
             //movie.GetAgeInYears = 10;
 
             ViewMovie();
@@ -292,6 +300,48 @@ namespace MovieLibrary.ConsoleHost
         static Movie _movie;
 
         #region Demo Code
+
+        static void DemoTypeChecking ()
+        {
+            // Type checking - programmer determining type of an expression
+            // Type casting - programmers tells compiler type of expression
+            // Type coercion - compiler determines type of expression
+
+            double payRate = 7.5;
+            int pay;
+            //Type checking
+            //  1. C-Style cast //never do this
+            //      Crashes if invalid
+            //      Always compiler verified
+            pay = (int)payRate;
+
+            //  2. as operator ::= E as T 
+            //      Converts an expression to the given type, if valid, or null otherwise
+            //      Only works with classes
+            object m = null;
+            Program p;
+            p = m as Program;   //At runtime if m is compatible with Program, returns m as a Program else return null
+            if (p != null)
+            {
+                //Do something with result
+            };
+
+            //  3. is operator ::= E is T => bool
+            //      type checking, not type casting
+            //      works with all types
+            if (m is Program)
+            {
+                p = (Program)m;
+            };
+
+            //Preferred approach
+            //  4. Pattern matching operator ::= E is T id => returns a bool
+            //      bool TryParse(out var result)
+            if (m is Program prog)
+            {
+                //prog is Program
+            }
+        }
 
         void DemoString ()
         {
