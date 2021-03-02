@@ -2,6 +2,23 @@
 
 namespace MovieLibrary
 {
+    // Common Type System (CTS)
+    //      All types inherit from some base type (Object)
+    //      Object => (alias) object
+    //      Shape class - Draw()
+    //          Circle class derives from Shape - Draw()
+    //          Square class derives from Shape - Draw()
+    //          Triangle class dervies from Shape - Draw()
+    //          ResizableShape derives from Shape - Resize()
+    //          MoveableShape derives from Shape - Move()
+    //          ResizableAndMovableShape derives from Resizableshape, Movable..
+    //      Base type provides core functionality
+    //      Derived types can extend or add new functionality
+    //        Type compatible (e.g. Type A is/is not compatible with B if
+    //              B variable = instanceof-A
+    //              if A derives from B then A is compatible with B
+    //              object inst = //anything
+
     // Naming rules for types
     //   Noun, no abbreviations or acronyms
     //   Pascal cased
@@ -10,10 +27,11 @@ namespace MovieLibrary
     //   public - usable by anyone
     //   private - only usable by defining type (default for members of a class)
     //   internal - (default for types): only usable in defining assembly
+    //   protected - public to type and derived types, private to everyone else
 
-    // class-declaration ::= [modifiers] `class` identifier { class-members* }
+    // class-declaration ::= [modifiers] `class` identifier [base-class] { class-members* }
     // modifiers ::= [access]
-    // access ::= `public` | `internal` | `private`
+    // access ::= `public` | `internal` | `private` | 'protected'
     // class-members ::= field | method | property || ctor     
     // field ::= [modifiers] T identifier [ = E ];
     // method ::= [modifiers] (T | `void`) identifier ( [parameters] ) { S* } 
@@ -23,7 +41,7 @@ namespace MovieLibrary
     // setter ::= [access] `set` { S* }
     // auto-property ::= [modifiers] T identifier { [[accesss] `get` ;] [[access] `set` ;] } [ = field-initializer ];    
     // ctor ::= [modifiers] identifier ( [parameters] ) { S* }
-    class MovieDemoClass
+    class MovieDemoClass : BaseMovieDemo
     {
         #region Constructors
 
@@ -51,6 +69,15 @@ namespace MovieLibrary
         {
             //Can use `this` here
             MovieDemoClass currentInstance = this;
+
+            GetFormattedTitle();
+        }
+
+        //Override indicates an override of a virtual method
+        protected override string GetFormattedTitle ()
+        {
+            base.GetFormattedTitle();
+            return "New Title";
         }
 
         // Null handling
@@ -71,6 +98,18 @@ namespace MovieLibrary
         //   should never be needed to clarify a member of the class (this is generally wrong `this.member`)
 
         #endregion
+
+        // Properties vs Methods
+        //
+        // Use a property if:
+        //      Must be fast to get or set
+        //      Must be deterministic (known value) - DateTime.Now (wrong, non-deterministic)
+
+        // Use a method if:
+        //      Functionality that does not set or return data (e.g. Draw)
+        //      Implementation requires slow resources such as netowrk, file system, etc.
+        //      Non-deterministic calls
+        //      Has a side effect (e.g. x++, ++x): exception - caching
 
         #region Properties
 
@@ -147,4 +186,24 @@ namespace MovieLibrary
         { }
         #endregion
     }
+
+    class BaseMovieDemo
+    {
+        public void Foo ()
+        {
+            //Type compatibility
+            BaseMovieDemo demo = new MovieDemoClass();  // B derives A
+            object instance = demo;
+
+            //demo.Foo();
+            //instance.ToString();
+        }
+
+        protected virtual string GetFormattedTitle ()
+        {
+            return "";
+        }
+    }
+
+    
 }

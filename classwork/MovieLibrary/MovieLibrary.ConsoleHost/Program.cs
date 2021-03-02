@@ -14,6 +14,7 @@ using System;  //Bring into scope all the types defined in the given namespace
 
 namespace MovieLibrary.ConsoleHost
 {
+
     class Program  //MovieLibrary.ConsoleHost.Program
     {
         static void Main ()  //(string[] args)
@@ -156,6 +157,8 @@ namespace MovieLibrary.ConsoleHost
 
             Console.Write("Is a Classic (Y/N)? ");
             movie.IsClassic = ReadBoolean();
+
+            var validator = new ObjectValidator(movie);
 
             //Validate movie
             if (!movie.Validate(out var message))
