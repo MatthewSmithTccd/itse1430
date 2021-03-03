@@ -32,6 +32,8 @@ namespace CharacterCreator.ConsoleHost
             } while (!done);
         }
 
+
+
         private static void DeleteCharacter ()
         {
             throw new NotImplementedException();
@@ -49,7 +51,112 @@ namespace CharacterCreator.ConsoleHost
 
         private static void AddNewCharacter ()
         {
-            throw new NotImplementedException();
+            Character character;
+            character = new Character();
+            
+            Console.WriteLine("Enter your character's name: ");
+            character.Name = Console.ReadLine();
+
+            Console.WriteLine("Choose a profession: ");
+            character.Profession = ChooseProfession();
+
+            Console.WriteLine("Choose a race: ");
+            character.Race = ChooseRace();
+
+            Console.WriteLine("Biography(optional): ");
+            character.Biography = Console.ReadLine();
+
+            Console.WriteLine("Assign Strength Attribute(1-100): ");
+            character.StrengthAttribute = ReadAttribute();
+
+            Console.WriteLine("Assign Intelligence Attribute(1-100): ");
+            character.IntelligenceAttribute = ReadAttribute();
+
+            Console.WriteLine("Assign Agility Attribute(1-100): ");
+            character.AgilityAttribute = ReadAttribute();
+
+            Console.WriteLine("Assign Constitution Attribute(1-100): ");
+            character.ConstitutionAttribute = ReadAttribute();
+
+            Console.WriteLine("Assign Charisma Attribute(1-100): ");
+            character.CharismaAttribute = ReadAttribute();
+        }
+
+        private static int ReadAttribute ()
+        {
+            do
+            {
+                var input = Console.ReadLine();
+
+                if (Int32.TryParse(input, out var result))
+                {
+                    //Make sure it is at least minValue
+                    if (result > 0 && result < 101)
+                        return result;
+                    else
+                        DisplayError("Value must be between 1 and 100");
+                } else
+                    DisplayError("Value must be numeric");
+            } while (true);
+        }
+
+        private static string ChooseRace ()
+        {
+            Console.WriteLine("(D)warf, (E)lf, (G)nome, (H)alf-Elf, H(U)man");
+            Console.WriteLine("Press D, E, G, H, or U: ");
+            string choice = Console.ReadLine();
+            do
+            {
+                switch (choice)
+                {
+                    case "D":
+                    case "d": return "Dwarf";
+
+                    case "E":
+                    case "e": return "Elf";
+
+                    case "G":
+                    case "g": return "Gnome";
+
+                    case "H":
+                    case "h": return "Half Elf";
+
+                    case "U":
+                    case "u": return "Human";
+                };
+
+                DisplayError("Invalid Option");
+            } while (true);
+        }
+
+        private static string ChooseProfession ()
+        {
+            Console.WriteLine("(F)ighter, (H)unter, (P)riest, (R)ogue, (W)izard");
+            Console.WriteLine("Press F, H, P, R, or W: ");
+            string choice = Console.ReadLine();
+            do
+            {
+                switch (choice)
+                {
+                    case "F":
+                    case "f": return "Fighter";
+
+                    case "H":
+                    case "h": return "Hunter";
+
+                    case "P":
+                    case "p": return "Priest";
+
+                    case "R":
+                    case "r": return "Rogue";
+
+                    case "W":
+                    case "w": return "Wizard";
+                };
+
+                DisplayError("Invalid Option");
+            } while (true);
+
         }
 
         private static char DisplayMainMenu ()
