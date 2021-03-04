@@ -104,9 +104,10 @@ namespace CharacterCreator.ConsoleHost
         {
             Console.WriteLine("(D)warf, (E)lf, (G)nome, (H)alf-Elf, H(U)man");
             Console.WriteLine("Press D, E, G, H, or U: ");
-            string choice = Console.ReadLine();
+            
             do
             {
+                string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "D":
@@ -123,23 +124,20 @@ namespace CharacterCreator.ConsoleHost
 
                     case "U":
                     case "u": return "Human";
-
-                    default:
-                        DisplayError("Invalid Option");
-                        break;
                 };
 
-                DisplayError("Invalid Option");
-            } while (true) ;
+                DisplayError("Invalid Option. Try again.");
+            } while (true);
         }
 
         private static string ChooseProfession ()
         {
             Console.WriteLine("(F)ighter, (H)unter, (P)riest, (R)ogue, (W)izard");
             Console.WriteLine("Press F, H, P, R, or W: ");
-            string choice = Console.ReadLine();
+            
             do
             {
+                string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "F":
@@ -158,7 +156,7 @@ namespace CharacterCreator.ConsoleHost
                     case "w": return "Wizard";
                 };
 
-                DisplayError("Invalid Option");
+                DisplayError("Invalid Option. Try again.");
             } while (true);
 
         }
