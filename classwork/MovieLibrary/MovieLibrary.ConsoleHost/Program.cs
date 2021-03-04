@@ -175,8 +175,8 @@ namespace MovieLibrary.ConsoleHost
             movie2.Title = "Jaws 2";
             movie2.ReleaseYear = 1930;
 
-            movie2.IsBlackAndWhite();
-            movie.IsBlackAndWhite();
+            //movie2.IsBlackAndWhite();
+            //movie.IsBlackAndWhite();
             //movie.DoComplex(1970, true);
 
             // Readable but not writable

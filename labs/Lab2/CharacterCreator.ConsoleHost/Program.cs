@@ -123,10 +123,14 @@ namespace CharacterCreator.ConsoleHost
 
                     case "U":
                     case "u": return "Human";
+
+                    default:
+                        DisplayError("Invalid Option");
+                        break;
                 };
 
                 DisplayError("Invalid Option");
-            } while (true);
+            } while (true) ;
         }
 
         private static string ChooseProfession ()
