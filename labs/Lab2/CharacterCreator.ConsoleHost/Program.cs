@@ -54,8 +54,11 @@ namespace CharacterCreator.ConsoleHost
             Character character;
             character = new Character();
             
-            Console.WriteLine("Enter your character's name: ");
-            character.Name = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Enter your character's name: ");
+                character.Name = Console.ReadLine();
+            } while (character.Name == "");
 
             Console.WriteLine("Choose a profession: ");
             character.Profession = ChooseProfession();
