@@ -32,27 +32,163 @@ namespace CharacterCreator.ConsoleHost
             } while (!done);
         }
 
-
-
         private static void DeleteCharacter ()
         {
-            throw new NotImplementedException();
+            if(_character != null)
+            {
+                ValidateDelete();
+            }else
+            {
+                DisplayError("No Character Created, Returning to Main Menu");
+            }
+        }
+
+        private static void ValidateDelete ()
+        {
+            do
+            {
+                Console.WriteLine("Are you sure you would like to delete your character?(Y/N) ");
+                string choice = Console.ReadLine();
+
+
+                if (choice == "Y" || choice == "y")
+                {
+                    _character = null;
+                    break;
+                } 
+                else if (choice == "N" || choice == "n")
+                    break;
+                else
+                    DisplayError("Please enter Y or N ");
+            } while (true);
+        }
+
+        private static bool ValidateChange ()
+        {
+            do
+            {
+                Console.WriteLine("Would you like to change this? (Y/N)");
+                string choice = Console.ReadLine();
+
+                if (choice == "Y" || choice == "y")
+                {
+                    return true;
+                } else if (choice == "N" || choice == "n")
+                    return false;
+                else
+                    DisplayError("Please enter Y or N ");
+            } while (true);
         }
 
         private static void EditCharacter ()
         {
-            throw new NotImplementedException();
+            if(_character != null)
+            {
+                Console.WriteLine($"Current Name: { _character.Name}");
+                if (ValidateChange())
+                {
+                    do
+                    {
+                        Console.WriteLine("Enter your character's new name: ");
+                        _character.Name = Console.ReadLine();
+                    } while (_character.Name == "");
+                }
+
+                Console.WriteLine($"Current Profession: { _character.Profession}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Choose a new profession: ");
+                    _character.Profession = ChooseProfession();
+                }
+
+                Console.WriteLine($"Current Race: { _character.Race}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Choose a new race: ");
+                    _character.Race = ChooseRace();
+                }
+
+                Console.WriteLine($"Current Biography: { _character.Biography}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Write a new Biography(optional): ");
+                    _character.Biography = Console.ReadLine();
+                }
+
+                Console.WriteLine("Attributes");
+                Console.WriteLine("----------");
+
+                Console.WriteLine($"Current Strength: {_character.StrengthAttribute}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Assign New Strength Attribute(1-100): ");
+                    _character.StrengthAttribute = ReadAttribute();
+                }
+
+                Console.WriteLine($"Current Intelligence: {_character.IntelligenceAttribute}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Assign New Intelligence Attribute(1-100): ");
+                    _character.IntelligenceAttribute = ReadAttribute();
+                }
+
+                Console.WriteLine($"Current Agility: {_character.AgilityAttribute}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Assign New Agility Attribute(1-100): ");
+                    _character.AgilityAttribute = ReadAttribute();
+                }
+
+                Console.WriteLine($"Current Constitution: {_character.ConstitutionAttribute}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Assign New Constitution Attribute(1-100): ");
+                    _character.ConstitutionAttribute = ReadAttribute();
+                }
+
+                Console.WriteLine($"Current Charisma: {_character.CharismaAttribute}");
+                if (ValidateChange())
+                {
+                    Console.WriteLine("Assign New Charisma Attribute(1-100): ");
+                    _character.CharismaAttribute = ReadAttribute();
+                }
+
+                Console.WriteLine("Updated Character as follows:");
+                ViewCharacter();
+
+            } else
+            {
+                Console.WriteLine("No Character Exists, Creating New Character");
+                AddNewCharacter();
+            }
         }
 
         private static void ViewCharacter ()
         {
-            throw new NotImplementedException();
+            if (_character != null)
+            {
+                Console.WriteLine($"Name: { _character.Name}");
+                Console.WriteLine($"Profession: { _character.Profession}");
+                Console.WriteLine($"Race: { _character.Race}");
+                Console.WriteLine($"Biography: { _character.Biography}");
+                Console.WriteLine("Attributes");
+                Console.WriteLine("----------");
+                Console.WriteLine($"Strength: {_character.StrengthAttribute}");
+                Console.WriteLine($"Intelligence: {_character.IntelligenceAttribute}");
+                Console.WriteLine($"Agility: {_character.AgilityAttribute}");
+                Console.WriteLine($"Constitution: {_character.ConstitutionAttribute}");
+                Console.WriteLine($"Charisma: {_character.CharismaAttribute}");
+            } else
+            {
+                DisplayError("No Character Created Yet. Returning to Main Menu");
+            }
         }
-
-        private static void AddNewCharacter ()
+       
+        public static void AddNewCharacter ()
         {
             Character character;
             character = new Character();
+
             
             do
             {
@@ -83,7 +219,11 @@ namespace CharacterCreator.ConsoleHost
 
             Console.WriteLine("Assign Charisma Attribute(1-100): ");
             character.CharismaAttribute = ReadAttribute();
+
+            _character = character;
         }
+
+        static Character _character;
 
         private static int ReadAttribute ()
         {
@@ -181,7 +321,6 @@ namespace CharacterCreator.ConsoleHost
             {
                 string input = Console.ReadLine();
 
-
                 switch (input)
                 {
                     case "A":
@@ -210,7 +349,6 @@ namespace CharacterCreator.ConsoleHost
             {
                 Console.WriteLine("Are you sure you would like to quit?(Y/N) ");
                 string quit = Console.ReadLine();
-
 
                 if (quit == "Y" || quit == "y")
                     return true;
