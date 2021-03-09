@@ -189,7 +189,6 @@ namespace CharacterCreator.ConsoleHost
             Character character;
             character = new Character();
 
-            
             do
             {
                 Console.WriteLine("Enter your character's name: ");
