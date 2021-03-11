@@ -39,6 +39,7 @@ namespace MovieLibrary.WinHost
             this.miMovieDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.miHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.lstMovies = new System.Windows.Forms.ListBox();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,11 +127,21 @@ namespace MovieLibrary.WinHost
             this.miHelpAbout.Text = "About";
             this.miHelpAbout.Click += new System.EventHandler(this.OnHelpAbout);
             // 
+            // lstMovies
+            // 
+            this.lstMovies.FormattingEnabled = true;
+            this.lstMovies.ItemHeight = 20;
+            this.lstMovies.Location = new System.Drawing.Point(12, 40);
+            this.lstMovies.Name = "lstMovies";
+            this.lstMovies.Size = new System.Drawing.Size(820, 384);
+            this.lstMovies.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 436);
+            this.Controls.Add(this.lstMovies);
             this.Controls.Add(this.mainMenu);
             this.Name = "MainForm";
             this.Text = "Form1";
@@ -153,6 +164,7 @@ namespace MovieLibrary.WinHost
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem miMovieDelete;
         private System.Windows.Forms.ToolStripMenuItem miHelpAbout;
+        private System.Windows.Forms.ListBox lstMovies;
     }
 }
 

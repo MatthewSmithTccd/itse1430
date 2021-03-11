@@ -127,6 +127,11 @@ namespace MovieLibrary
 
         #region Methods
 
+        public override string ToString ()
+        {
+            return Title;
+        }
+
         /// <summary>Validates the movie data is correct.</summary>
         /// <param name="error">The error message if any.</param>
         /// <returns>True if movie is valid.</returns>
