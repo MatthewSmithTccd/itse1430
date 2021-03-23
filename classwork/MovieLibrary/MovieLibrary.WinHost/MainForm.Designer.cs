@@ -129,11 +129,12 @@ namespace MovieLibrary.WinHost
             // 
             // lstMovies
             // 
+            this.lstMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstMovies.FormattingEnabled = true;
             this.lstMovies.ItemHeight = 20;
-            this.lstMovies.Location = new System.Drawing.Point(12, 40);
+            this.lstMovies.Location = new System.Drawing.Point(0, 28);
             this.lstMovies.Name = "lstMovies";
-            this.lstMovies.Size = new System.Drawing.Size(820, 384);
+            this.lstMovies.Size = new System.Drawing.Size(857, 408);
             this.lstMovies.TabIndex = 1;
             // 
             // MainForm

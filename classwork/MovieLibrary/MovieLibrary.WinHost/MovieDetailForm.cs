@@ -58,6 +58,13 @@ namespace MovieLibrary.WinHost
 
         private void OnSave ( object sender, EventArgs e )
         {
+            //Validate UI
+            if (!ValidateChildren())
+            {
+                DialogResult = DialogResult.None;
+                return;
+            };
+
             //Creating movie
             var movie = SaveMovie();
 
@@ -95,7 +102,7 @@ namespace MovieLibrary.WinHost
             txtTitle.Text = movie.Title;
             txtDescription.Text = movie.Description;
 
-            cbRating.SelectedText = movie.Rating;
+            cbRating.SelectedItem = movie.Rating;
 
             txtRunLength.Text = movie.RunLength.ToString();
             txtReleaseYear.Text = movie.ReleaseYear.ToString();
@@ -109,12 +116,80 @@ namespace MovieLibrary.WinHost
             movie.Title = txtTitle.Text;
             movie.Description = txtDescription.Text;
             
-            movie.Rating = cbRating.SelectedText;
+            movie.Rating = cbRating.SelectedItem as string;
             
             movie.RunLength = GetInt32(txtRunLength);
             movie.ReleaseYear = GetInt32(txtReleaseYear);
             movie.IsClassic = ckIsClassic.Checked;
             return movie;
+        }
+
+        private void OnValidatingTitle ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            if (String.IsNullOrEmpty(control.Text))
+            {
+                //Invalid
+                _errors.SetError(control, "Title is required");
+                e.Cancel = true;
+            }else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidatingRating ( object sender, CancelEventArgs e )
+        {
+            var control = sender as ComboBox;
+
+            var rating = control.SelectedItem as string;
+
+            if (String.IsNullOrEmpty(rating))
+            {
+                //Invalid
+                _errors.SetError(control, "Rating is required");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidatingReleaseYear ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+
+
+            var value = GetInt32(control);
+
+            if (value < 1900)
+            {
+                //Invalid
+                _errors.SetError(control, "Release Year must be at least 1900");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidatingRunLength ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            var value = GetInt32(control);
+
+            if (value < 0)
+            {
+                //Invalid
+                _errors.SetError(control, "Run Length must be at least 0");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
         }
     }
 }
