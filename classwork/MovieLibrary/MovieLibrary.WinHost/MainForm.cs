@@ -34,14 +34,26 @@ namespace MovieLibrary.WinHost
         private void OnMovieAdd ( object sender, EventArgs e )
         {
             var form = new MovieDetailForm();
+            do
+            {
+                if (form.ShowDialog(this) == DialogResult.Cancel)
+                    return;
 
-            if (form.ShowDialog(this) == DialogResult.Cancel)
-                return;
+                //TODO: "Save" the movie
+                _database.Add(form.Movie, out var error);
+                if (String.IsNullOrEmpty(error))
+                    break;
 
-            //TODO: "Save" the movie
-            _movie = form.Movie;
+                    DisplayError("Add Failed", error);
+                
+            } while (true);
 
             UpdateUI();
+        }
+
+        private void DisplayError ( string title, string message )
+        {
+            MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )
@@ -88,20 +100,17 @@ namespace MovieLibrary.WinHost
 
         private void UpdateUI ()
         {
-            //TODO: Clean up
-            //C++ Movie movies[];
-            var count = (_movie != null) ? 1 : 0;
-            Movie[] movies = new Movie[1];
-            if (_movie != null)
-                movies[0] = _movie;
+            var movies = _database.GetAll();
 
             //Can bind listbox using Items or DataSource
             //lstMovies.Items
+            //lstMovies.DataSource = null;
             lstMovies.DataSource = movies;
             lstMovies.DisplayMember = "Title";
             //lstMovies.ValueMember = "Id";
         }
 
         private Movie _movie;
+        private readonly MemoryMovieDatabase _database = new MemoryMovieDatabase();
     }
 }

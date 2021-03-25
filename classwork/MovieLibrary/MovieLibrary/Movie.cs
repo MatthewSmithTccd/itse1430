@@ -30,6 +30,9 @@ namespace MovieLibrary
         }
         #endregion
 
+        /// <summary>Unique identifier of the movie.</summary>
+        public int Id { get; set; }
+
         #region Properties
 
         public int AgeInYears
