@@ -1,49 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieLibrary
 {
-    public class ObjectValidator 
+    /// <summary>Validates an object.</summary>
+    public class ObjectValidator
     {
-        //Multiple constructors hidden by accessibility
-        private ObjectValidator() //: base()
+       
+        public List<ValidationResult> TryValidate ( IValidatableObject value )
         {
-            //Initialize();
-            //Do initialization
+            var context = new ValidationContext(value);
+            var errors = new List<ValidationResult>();
+
+            Validator.TryValidateObject(value, context, errors, true);
+
+            return errors;
         }
-
-        //Constructor chaining - one constructor calls another constructor
-        //  Follow ctor parameter list with a colon and 'this'(arguments)
-        //  Chained constructor is called before the current ctor's body executes
-        private ObjectValidator (int value) : this()
-        {
-            //Initialize();
-        }
-
-        public ObjectValidator (Movie movie) : this(1)
-        {
-            _movie = movie;
-
-            //Initialize();
-        }
-
-        //Anyone can call who has access
-        private void Initialize()
-        {
-            //initialization??
-        }
-
-        public string Validate()
-        {
-            if (_movie.Validate(out var message))
-                return "";
-
-            return message;
-        }
-
-        private Movie _movie;
     }
 }

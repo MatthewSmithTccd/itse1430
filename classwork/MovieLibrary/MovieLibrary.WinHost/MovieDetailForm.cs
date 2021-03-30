@@ -11,22 +11,23 @@ using System.Windows.Forms;
 namespace MovieLibrary.WinHost
 {
     // Control (Name, Text, Click)
-    //  Button
-    //  CheckBox
-    //  Label
-    //  Textbox
+    //    Button
+    //    CheckBox
+    //    Form
+    //    Label
+    //    TextBox
     //
-    // Form Lifetime
-    //      Ctor()
-    //      OnLoad()
+    // Form lifetime
+    //    Ctor()
+    //    Show/ShowDialog()
+    //       OnLad()
     //          Load event
-    //      OnPaint()
-    //      ..Close()
-    //          OnFormClosing()
-    //              FormClosing event (before)
-    //          OnFormClosed()
-    //              FormClosed event (after)
-
+    //    OnPaint()
+    //    ..Close()
+    //       OnFormClosing()
+    //          FormClosing event (before) 
+    //       OnFormClosed()
+    //          FormClosed event (after)
     public partial class MovieDetailForm : Form
     {
         public MovieDetailForm ()
@@ -36,17 +37,17 @@ namespace MovieLibrary.WinHost
 
         public Movie Movie { get; set; }
 
-        protected override void OnFormClosing ( FormClosingEventArgs e)
+        protected override void OnFormClosing ( FormClosingEventArgs e )
         {
             base.OnFormClosing(e);
 
             //Do any dirty detection
-            if (false)
-                e.Cancel = true;
+            //if (false)
+            //    e.Cancel = true;
         }
 
         //This is called just before the form is rendered the first time
-        protected override void OnLoad (EventArgs e)
+        protected override void OnLoad ( EventArgs e )
         {
             //Call the base member
             base.OnLoad(e);
@@ -68,26 +69,30 @@ namespace MovieLibrary.WinHost
             //Creating movie
             var movie = SaveMovie();
 
-            //Validation
-            if(!movie.Validate(out var error))
+            //TODO: Validation
+            var errors = new ObjectValidator().TryValidate(movie);
+            //if (!movie.Validate(out var error))
+            if (errors.Count > 0)
             {
-                MessageBox.Show(error, "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.DialogResult = DialogResult.None;
+                //Must clear dialog result otherwise form will close anyway
+                MessageBox.Show(this, errors[0].ErrorMessage, "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.None;
                 return;
             };
 
             Movie = movie;
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void OnCancel ( object sender, EventArgs e )
         {
+            //Not needed because it was set in designer for button
             //this.DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private int GetInt32 (Control control)
+        private int GetInt32 ( Control control )
         {
             var text = control.Text;
 
@@ -97,7 +102,7 @@ namespace MovieLibrary.WinHost
             return -1;
         }
 
-        private void LoadMovie(Movie movie)
+        private void LoadMovie ( Movie movie )
         {
             txtTitle.Text = movie.Title;
             txtDescription.Text = movie.Description;
@@ -110,17 +115,20 @@ namespace MovieLibrary.WinHost
             ckIsClassic.Checked = movie.IsClassic;
         }
 
-        private Movie SaveMovie()
+        private Movie SaveMovie ()
         {
             var movie = new Movie();
+
             movie.Title = txtTitle.Text;
             movie.Description = txtDescription.Text;
-            
+
             movie.Rating = cbRating.SelectedItem as string;
-            
+
             movie.RunLength = GetInt32(txtRunLength);
             movie.ReleaseYear = GetInt32(txtReleaseYear);
+
             movie.IsClassic = ckIsClassic.Checked;
+
             return movie;
         }
 
@@ -133,7 +141,7 @@ namespace MovieLibrary.WinHost
                 //Invalid
                 _errors.SetError(control, "Title is required");
                 e.Cancel = true;
-            }else
+            } else
             {
                 _errors.SetError(control, "");
             };
@@ -160,10 +168,7 @@ namespace MovieLibrary.WinHost
         {
             var control = sender as TextBox;
 
-
-
             var value = GetInt32(control);
-
             if (value < 1900)
             {
                 //Invalid
@@ -180,7 +185,6 @@ namespace MovieLibrary.WinHost
             var control = sender as TextBox;
 
             var value = GetInt32(control);
-
             if (value < 0)
             {
                 //Invalid

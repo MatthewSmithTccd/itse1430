@@ -5,9 +5,29 @@ namespace MovieLibrary.WinHost
 {
     public partial class MainForm : Form
     {
+        #region Construction
+
         public MainForm ()
         {
             InitializeComponent();
+        }
+        #endregion
+
+        protected override void OnLoad ( EventArgs e )
+        {
+            base.OnLoad(e);
+
+            var movies = _database.GetAll();
+            if (movies.Length == 0)
+            {
+                if (MessageBox.Show(this, "Do you want to seed the database?", "Seed Database", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var seed = new SeedDatabase();
+                    seed.Seed(_database);
+                };
+            };
+
+            UpdateUI();
         }
 
         private void OnHelpAbout ( object sender, EventArgs e )
@@ -34,18 +54,18 @@ namespace MovieLibrary.WinHost
         private void OnMovieAdd ( object sender, EventArgs e )
         {
             var form = new MovieDetailForm();
+
             do
             {
                 if (form.ShowDialog(this) == DialogResult.Cancel)
                     return;
 
-                //TODO: "Save" the movie
+                //Save the movie
                 _database.Add(form.Movie, out var error);
                 if (String.IsNullOrEmpty(error))
                     break;
 
-                    DisplayError("Add Failed", error);
-                
+                DisplayError("Add Failed", error);
             } while (true);
 
             UpdateUI();
@@ -67,15 +87,16 @@ namespace MovieLibrary.WinHost
             if (result != DialogResult.Yes)
                 return;
 
-            //TODO: "Delete" the movie            
-            _movie = null;
+            //TODO: Error checking
+            _database.Delete(movie.Id, out var error);
 
             UpdateUI();
         }
 
-        //Standard event signature - object, Event Args (or derived)
+        // Standard event signature - object, EventArgs (or derived)
         private void OnMovieEdit ( object sender, EventArgs e )
         {
+            //If a movie exists then display confirmation and delete
             var movie = GetSelectedMovie();
             if (movie == null)
                 return;
@@ -83,14 +104,23 @@ namespace MovieLibrary.WinHost
             var form = new MovieDetailForm();
             form.Movie = movie;
 
-            if (form.ShowDialog(this) == DialogResult.Cancel)
-                return;
+            do
+            {
+                if (form.ShowDialog(this) == DialogResult.Cancel)
+                    return;
 
-            //TODO: "Save" the movie
-            _movie = form.Movie;
+                //Save the movie
+                _database.Update(movie.Id, form.Movie, out var error);
+                if (String.IsNullOrEmpty(error))
+                    break;
+
+                DisplayError("Add Failed", error);
+            } while (true);
 
             UpdateUI();
         }
+
+        #region Private Members
 
         private Movie GetSelectedMovie ()
         {
@@ -102,15 +132,13 @@ namespace MovieLibrary.WinHost
         {
             var movies = _database.GetAll();
 
-            //Can bind listbox using Items or DataSource
-            //lstMovies.Items
-            //lstMovies.DataSource = null;
+            //Can bind listbox using Items or DataSource            
             lstMovies.DataSource = movies;
             lstMovies.DisplayMember = "Title";
-            //lstMovies.ValueMember = "Id";
         }
 
-        private Movie _movie;
         private readonly MemoryMovieDatabase _database = new MemoryMovieDatabase();
+
+        #endregion
     }
 }

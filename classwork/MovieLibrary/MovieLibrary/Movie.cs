@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieLibrary
 {
@@ -6,7 +8,9 @@ namespace MovieLibrary
     /// <remarks>
     /// Where you put additional comments that may be useful to someone.
     /// </remarks>
-    public class Movie
+    // Interfaces appear in the same section as the base type
+    /// IValidatableObject - Validates an object
+    public class Movie : IValidatableObject
     {
         //CAVEAT: NOT NEEDED HERE - just demo
 
@@ -138,7 +142,7 @@ namespace MovieLibrary
         /// <summary>Validates the movie data is correct.</summary>
         /// <param name="error">The error message if any.</param>
         /// <returns>True if movie is valid.</returns>
-        public bool Validate ( out string error )
+        /*public bool Validate ( out string error )
         {
             //Title is required
             if (String.IsNullOrEmpty(Title))
@@ -163,6 +167,24 @@ namespace MovieLibrary
 
             error = "";
             return true;
+        }*/
+
+        public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
+        {
+            var errors = new List<ValidationResult>();
+
+            if (String.IsNullOrEmpty(Title))
+                errors.Add(new ValidationResult("Title is required."));
+
+            //Release year >= 1900
+            if (ReleaseYear < 1900)
+                errors.Add(new ValidationResult("Release year must be >= 1900."));
+
+            //Run length >= 0
+            if (RunLength < 0)
+                errors.Add(new ValidationResult("Run length must be >= 0."));
+
+            return errors;
         }
 
         #endregion

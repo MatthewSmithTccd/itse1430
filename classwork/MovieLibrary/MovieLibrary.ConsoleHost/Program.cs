@@ -14,9 +14,11 @@ using System;  //Bring into scope all the types defined in the given namespace
 
 namespace MovieLibrary.ConsoleHost
 {
-
     class Program  //MovieLibrary.ConsoleHost.Program
     {
+        public Program ()
+        { }
+
         static void Main ()  //(string[] args)
         {
             //System.Collections.ArrayList
@@ -124,66 +126,71 @@ namespace MovieLibrary.ConsoleHost
         // Get movie from user
         static void AddMovie ()
         {
-            // Object creation
-            //   1. Allocates memory to store class fields
-            //   2. All fields are initialized to default or field initializer
-            //   3. Calls constructor
-            //   Only 1 constructor will ever be called
+            //// Object creation
+            ////   1. Allocates memory to store class fields
+            ////   2. All fields are initialized to default or field initializer
+            ////   3. Calls constructor
+            ////   Only 1 constructor will ever be called
 
-            // new T();
-            // Movie* movie = new Movie();
-            Movie movie;
-            movie = new Movie("Default Title");
-            movie = new Movie();
+            //// new T();
+            //// Movie* movie = new Movie();
+            //Movie movie;
+            //movie = new Movie("Default Title");
+            //movie = new Movie();
 
-            //Member access operator 
-            //   member-access  ::= E . Member            
+            ////Member access operator 
+            ////   member-access  ::= E . Member            
 
-            // title, release year, run length (min), description, rating
-            Console.Write("Enter a title: ");
-            movie.Title = Console.ReadLine();   // movie.set_Title(Console.ReadLine());
+            //// title, release year, run length (min), description, rating
+            //Console.Write("Enter a title: ");
+            //movie.Title = Console.ReadLine();   // movie.set_Title(Console.ReadLine());
 
-            Console.Write("Enter an optional description: ");
-            movie.Description = Console.ReadLine();
+            //Console.Write("Enter an optional description: ");
+            //movie.Description = Console.ReadLine();
 
-            Console.Write("Enter a release year: ");
-            movie.ReleaseYear = ReadInt32(Movie.MinimumReleaseYear);
+            //Console.Write("Enter a release year: ");
+            //movie.ReleaseYear = ReadInt32(Movie.MinimumReleaseYear);
 
-            Console.Write("Enter the run length in minutes: ");
-            movie.RunLength = ReadInt32(-1);
+            //Console.Write("Enter the run length in minutes: ");
+            //movie.RunLength = ReadInt32(-1);
+            ////Console.WriteLine(movie.RunLength);
+            ////for (var index = 0; index < 1000; ++index)
+            ////{
+            ////    Console.WriteLine(movie.RunLength);
+            ////};            
 
-            Console.Write("Enter the rating: ");
-            movie.Rating = Console.ReadLine();
+            //Console.Write("Enter the rating: ");
+            //movie.Rating = Console.ReadLine();
 
-            Console.Write("Is a Classic (Y/N)? ");
-            movie.IsClassic = ReadBoolean();
+            //Console.Write("Is a Classic (Y/N)? ");
+            //movie.IsClassic = ReadBoolean();
 
-            var validator = new ObjectValidator(movie);
+            //var validator = new ObjectValidator(movie);
 
-            //Validate movie
-            if (!movie.Validate(out var message))
-            {
-                DisplayError($"Invalid movie: {message}");
-                return;
-            };
+            ////Validate movie
+            //if (!movie.Validate(out var message))
+            //{
+            //    DisplayError($"Invalid movie: {message}");
+            //    return;
+            //};
 
-            //Hiding the field movie
-            //this.movie = movie;
-            _movie = movie;
+            ////Hiding the field movie
+            ////this.movie = movie;
+            //_movie = movie;
 
-            var movie2 = new Movie();
-            movie2.Title = "Jaws 2";
-            movie2.ReleaseYear = 1930;
+            //var movie2 = new Movie();
+            //movie2.Title = "Jaws 2";
+            //movie2.ReleaseYear = 1930;
 
-            //movie2.IsBlackAndWhite();
-            //movie.IsBlackAndWhite();
-            //movie.DoComplex(1970, true);
+            ////movie2.IsBlackAndWhite();
+            ////movie.IsBlackAndWhite();
+            ////movie.DoComplex(1970, true);
 
-            // Readable but not writable
-            var age = movie.AgeInYears;
-            //movie.AgeInYears = 10;
+            //// Readable but not writable
+            //var age = movie.AgeInYears;
+            ////movie.AgeInYears = 10;
 
-            ViewMovie();
+            //ViewMovie();
         }
 
         static void ViewMovie ()
