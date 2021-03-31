@@ -33,11 +33,11 @@ namespace CharacterCreator.WinHost
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.miFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.miCharacterNew = new System.Windows.Forms.ToolStripMenuItem();
             this.miCharacterEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCharacterDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.miCharacterDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.miHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -82,14 +82,6 @@ namespace CharacterCreator.WinHost
             this.toolStripMenuItem2.Size = new System.Drawing.Size(86, 24);
             this.toolStripMenuItem2.Text = "&Character";
             // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miHelpAbout});
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(55, 24);
-            this.toolStripMenuItem3.Text = "&Help";
-            // 
             // miCharacterNew
             // 
             this.miCharacterNew.Name = "miCharacterNew";
@@ -104,6 +96,11 @@ namespace CharacterCreator.WinHost
             this.miCharacterEdit.Size = new System.Drawing.Size(175, 26);
             this.miCharacterEdit.Text = "Edit";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(172, 6);
+            // 
             // miCharacterDelete
             // 
             this.miCharacterDelete.Name = "miCharacterDelete";
@@ -111,10 +108,13 @@ namespace CharacterCreator.WinHost
             this.miCharacterDelete.Size = new System.Drawing.Size(175, 26);
             this.miCharacterDelete.Text = "Delete";
             // 
-            // toolStripSeparator1
+            // toolStripMenuItem3
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(172, 6);
+            this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miHelpAbout});
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(55, 24);
+            this.toolStripMenuItem3.Text = "&Help";
             // 
             // miHelpAbout
             // 
@@ -122,6 +122,7 @@ namespace CharacterCreator.WinHost
             this.miHelpAbout.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.miHelpAbout.Size = new System.Drawing.Size(157, 26);
             this.miHelpAbout.Text = "About";
+            this.miHelpAbout.Click += new System.EventHandler(this.miHelpAbout_Click);
             // 
             // MainForm
             // 

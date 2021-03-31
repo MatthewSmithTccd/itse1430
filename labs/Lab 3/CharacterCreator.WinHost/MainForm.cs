@@ -27,5 +27,12 @@ namespace CharacterCreator.WinHost
             //Close the form
             Close();
         }
+
+        private void miHelpAbout_Click ( object sender, EventArgs e )
+        {
+            var form = new AboutBox();
+
+            form.ShowDialog();
+        }
     }
 }
