@@ -9,7 +9,7 @@ namespace MovieLibrary
     //  Should not return Movie directly from DB because it is a reference type and user could change data outside database
 
     /// <summary>Represents a database of movies.</summary>
-    public class MemoryMovieDatabase
+    public class MemoryMovieDatabase : IMovieDatabase
     {
         public Movie Add ( Movie movie, out string error )
         {
@@ -87,23 +87,26 @@ namespace MovieLibrary
             return CloneMovie(existing);
         }
 
+        //Iterator - returns back data on demand
+        //  -they ONLY work with methods that return IEnumberable<T>
+        //  -all return statements must be preceded with yield
         // IEnumerable<T> is readonly, use for returning a readonly set of values
         //public Movie[] GetAll ()
         public IEnumerable<Movie> GetAll ()
         {
             //Counter determines # of items in list
-            var items = new Movie[_movies.Count];
+            //var items = new Movie[_movies.Count];
 
             //Foreach - preferred for enumeration
             //   item is readonly
             //   cannot write to array
             //   array cannot change during enumeration
-            int index = 0;
+            //int index = 0;
             foreach (var item in _movies)
                 //Clone the movie so the caller can manipulate the movie without breaking our copy
-                items[index++] = CloneMovie(item);
-
-            return items;
+                //items[index++] = CloneMovie(item);
+                yield return CloneMovie(item);
+            //return items;
         }
 
         public void Update ( int id, Movie movie, out string error )

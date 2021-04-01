@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MovieLibrary.WinHost
@@ -18,7 +19,7 @@ namespace MovieLibrary.WinHost
             base.OnLoad(e);
 
             var movies = _database.GetAll();
-            if (movies.Length == 0)
+            if (movies.Count() == 0)
             {
                 if (MessageBox.Show(this, "Do you want to seed the database?", "Seed Database", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -133,11 +134,11 @@ namespace MovieLibrary.WinHost
             var movies = _database.GetAll();
 
             //Can bind listbox using Items or DataSource            
-            lstMovies.DataSource = movies;
+            lstMovies.DataSource = movies.ToArray();
             lstMovies.DisplayMember = "Title";
         }
 
-        private readonly MemoryMovieDatabase _database = new MemoryMovieDatabase();
+        private readonly IMovieDatabase _database = new MemoryMovieDatabase();
 
         #endregion
     }

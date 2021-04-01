@@ -8,7 +8,7 @@ namespace MovieLibrary
 {
     public class SeedDatabase
     {
-        public void Seed (MemoryMovieDatabase database)
+        public void Seed (IMovieDatabase database)
         {
             var movie1 = new Movie() {
                 Title = "Jaws",

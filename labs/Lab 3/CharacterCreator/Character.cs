@@ -21,6 +21,60 @@ namespace CharacterCreator
         private int _constitutionAttribute;
         private int _charismaAttribute;
 
+        /// <summary>Validates the character data is correct.</summary>
+        /// <param name="error">The error message if any.</param>
+        /// <returns>True if character is valid.</returns>
+        public bool Validate ( out string error )
+        {
+            //Title is required
+            if (String.IsNullOrEmpty(Name))
+            {
+                error = "Name is required.";
+                return false;
+            };
+
+            if (String.IsNullOrEmpty(Profession))
+            {
+                error = "Profession is required.";
+                return false;
+            };
+
+            if (String.IsNullOrEmpty(Race))
+            {
+                error = "Race is required.";
+                return false;
+            };
+
+            if (StrengthAttribute < 0 || StrengthAttribute > 100)
+            {
+                error = "Must be between 1-100";
+                return false;
+            };
+            if (IntelligenceAttribute < 0 || IntelligenceAttribute > 100)
+            {
+                error = "Must be between 1-100";
+                return false;
+            };
+            if (AgilityAttribute < 0 || AgilityAttribute > 100)
+            {
+                error = "Must be between 1-100";
+                return false;
+            };
+            if (ConstitutionAttribute < 0 || ConstitutionAttribute > 100)
+            {
+                error = "Must be between 1-100";
+                return false;
+            };
+            if (CharismaAttribute < 0 || CharismaAttribute > 100)
+            {
+                error = "Must be between 1-100";
+                return false;
+            };
+
+            error = "";
+            return true;
+        }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

@@ -88,6 +88,7 @@ namespace CharacterCreator.WinHost
             this.miCharacterNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.miCharacterNew.Size = new System.Drawing.Size(175, 26);
             this.miCharacterNew.Text = "New";
+            this.miCharacterNew.Click += new System.EventHandler(this.OnCharacterNew);
             // 
             // miCharacterEdit
             // 
@@ -95,6 +96,7 @@ namespace CharacterCreator.WinHost
             this.miCharacterEdit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.miCharacterEdit.Size = new System.Drawing.Size(175, 26);
             this.miCharacterEdit.Text = "Edit";
+            this.miCharacterEdit.Click += new System.EventHandler(this.OnCharacterEdit);
             // 
             // toolStripSeparator1
             // 
@@ -107,6 +109,7 @@ namespace CharacterCreator.WinHost
             this.miCharacterDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.miCharacterDelete.Size = new System.Drawing.Size(175, 26);
             this.miCharacterDelete.Text = "Delete";
+            this.miCharacterDelete.Click += new System.EventHandler(this.OnCharacterDelete);
             // 
             // toolStripMenuItem3
             // 

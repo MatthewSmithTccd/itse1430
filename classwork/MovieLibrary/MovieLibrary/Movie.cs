@@ -10,6 +10,11 @@ namespace MovieLibrary
     /// </remarks>
     // Interfaces appear in the same section as the base type
     /// IValidatableObject - Validates an object
+    /// IComparer<T> - compares two objects (e.g. StringComparer)
+    /// IComparable<T> - compare current type to another types
+    /// ICloneable - clones an object (NEVER USE IT)
+    /// IEqualityComparer<T> - determines equality (DONT IMPLEMENT ON REF TYPES)
+
     public class Movie : IValidatableObject
     {
         //CAVEAT: NOT NEEDED HERE - just demo
@@ -171,20 +176,23 @@ namespace MovieLibrary
 
         public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
-            var errors = new List<ValidationResult>();
+            //var errors = new List<ValidationResult>();
 
             if (String.IsNullOrEmpty(Title))
-                errors.Add(new ValidationResult("Title is required."));
+                //errors.Add(new ValidationResult("Title is required."));
+                yield return new ValidationResult("Title is required.");
 
             //Release year >= 1900
             if (ReleaseYear < 1900)
-                errors.Add(new ValidationResult("Release year must be >= 1900."));
+                //errors.Add(new ValidationResult("Release year must be >= 1900."));
+                yield return new ValidationResult("Release year must be >= 1900.");
 
             //Run length >= 0
             if (RunLength < 0)
-                errors.Add(new ValidationResult("Run length must be >= 0."));
+                //errors.Add(new ValidationResult("Run length must be >= 0."));
+                yield return new ValidationResult("Run length must be >= 0.");
 
-            return errors;
+            //return errors;
         }
 
         #endregion
