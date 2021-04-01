@@ -1,25 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace MovieLibrary
 {
     //TODO: 
     //  Should not return Movie directly from DB because it is a reference type and user could change data outside database
 
-    /// <summary>Represents a database of movies.</summary>
+    /// <summary>Represents an in-memory movie database.</summary>
     public class MemoryMovieDatabase : IMovieDatabase
     {
-        public Movie Add ( Movie movie, out string error )
+        //public void NotVisibleInInterface () { }
+
+        // Exceptions - error objects
+        //   when an error case occurs we throw/raise an exception
+        //   throw ::= throw E;
+        //   when a throw occurs current function stops executing and error is immediately returned
+        //
+        //   Exception is a base type - use when no other exception works
+        //     ArgumentException - when an argument is invalid and no other exception is better
+        //         ArgumentNullException - when an argument is null and you do not support it
+        //         ArgumentOutOfRangException - when an argument is out of range
+        //     ValidationException - validation errors from IValidableObject
+        //     InvalidOperationException - currently not valid but may be later
+        //     NotSupportedException - not currently supported things
+        //     NotImplementedException - not currently implemented
+        //     SystemException - NEVER THROW
+        //        NullReferenceException - thrown when you use a null instance
+        //        OutOfMemoryException - *no more memory, always fatal
+        //        StackOverflowException - *no more stack space, always fatal
+        //     ApplicationException - NEVER USE THIS
+
+        public Movie Add ( Movie movie )
         {
             //Validation
             //  Check for null and valid movie
             if (movie == null)
-            {
-                error = "Movie is null";
-                return null;
-            };
+                throw new ArgumentNullException(nameof(movie));
+            //{
+            //    error = "Movie is null";
+            //    return null;
+            //};
 
             //Validate using IValidatableObject
             //var context = new ValidationContext(movie);
@@ -30,38 +50,36 @@ namespace MovieLibrary
             //    //if (!movie.Validate(out error))
             //    return null;
             //};
-            var errors = new ObjectValidator().TryValidate(movie);
-            if (errors.Count > 0)
-            {
-                error = errors[0].ErrorMessage;
-                return null;
-            };
+            new ObjectValidator().Validate(movie);
+            //var errors = new ObjectValidator().TryValidate(movie);
+            //if (errors.Count > 0)
+            //{
+            //    error = errors[0].ErrorMessage;
+            //    return null;
+            //};
 
             //Must be unique
             var existing = FindByTitle(movie.Title);
             if (existing != null)
             {
-                error = "Movie title must be unique";
-                return null;
+                throw new InvalidOperationException("Movie title must be unique.");
+                //error = "Movie title must be unique";
+                //return null;
             };
 
             //Add the movie
             movie.Id = ++_id;
             _movies.Add(CloneMovie(movie));
 
-            error = null;
+            //error = null;
             return movie;
         }
 
-        public void Delete ( int id, out string error )
+        public void Delete ( int id )
         {
             //Validation
             if (id <= 0)
-            {
-                error = "Id must be greater than zero.";
-                return;
-            };
-            error = null;
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
 
             //Delete
             var existing = FindById(id);
@@ -69,15 +87,11 @@ namespace MovieLibrary
                 _movies.Remove(existing);
         }
 
-        public Movie Get ( int id, out string error )
+        public Movie Get ( int id )
         {
             //Validation
             if (id <= 0)
-            {
-                error = "Id must be greater than zero.";
-                return null;
-            };
-            error = null;
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
 
             //Get
             var existing = FindById(id);
@@ -87,9 +101,9 @@ namespace MovieLibrary
             return CloneMovie(existing);
         }
 
-        //Iterator - returns back data on demand
-        //  -they ONLY work with methods that return IEnumberable<T>
-        //  -all return statements must be preceded with yield
+        // Iterator - returns back data on demand
+        //   - they ONLY work with methods that return IEnumerable<T>
+        //   - all return statements must be preceded with yield
         // IEnumerable<T> is readonly, use for returning a readonly set of values
         //public Movie[] GetAll ()
         public IEnumerable<Movie> GetAll ()
@@ -106,49 +120,30 @@ namespace MovieLibrary
                 //Clone the movie so the caller can manipulate the movie without breaking our copy
                 //items[index++] = CloneMovie(item);
                 yield return CloneMovie(item);
+
             //return items;
         }
 
-        public void Update ( int id, Movie movie, out string error )
+        public void Update ( int id, Movie movie )
         {
             //Validation
-            //  Check for null and valid movie
-            if (movie == null)
-            {
-                error = "Movie is null";
-                return;
-            };
-
-            var errors = new ObjectValidator().TryValidate(movie);
-            if (errors.Count > 0)
-            {
-                error = errors[0].ErrorMessage;
-                return;
-            };
-
             if (id <= 0)
-            {
-                error = "Id must be greater than zero.";
-                return;
-            };
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
+
+            if (movie == null)
+                throw new ArgumentNullException(nameof(movie));
+
+            new ObjectValidator().Validate(movie);
 
             //Must be unique
             var existing = FindByTitle(movie.Title);
             if (existing != null && existing.Id != id)
-            {
-                error = "Movie title must be unique";
-                return;
-            };
+                throw new InvalidOperationException("Movie title must be unique.");
 
             //Must exist
             existing = FindById(id);
             if (existing == null)
-            {
-                error = "Movie does not exist";
-                return;
-            };
-
-            error = null;
+                throw new Exception("Movie does not exist.");
 
             //Update the movie
             CopyMovie(existing, movie);

@@ -17,5 +17,11 @@ namespace MovieLibrary
 
             return errors;
         }
+        public void Validate (IValidatableObject value)
+        {
+            var context = new ValidationContext(value);
+
+            Validator.ValidateObject(value, context, true);
+        }
     }
 }
