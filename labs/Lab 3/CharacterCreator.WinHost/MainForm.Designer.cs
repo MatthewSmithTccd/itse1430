@@ -39,6 +39,7 @@ namespace CharacterCreator.WinHost
             this.miCharacterDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.miHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.listCharacters = new System.Windows.Forms.ListBox();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,11 +128,21 @@ namespace CharacterCreator.WinHost
             this.miHelpAbout.Text = "About";
             this.miHelpAbout.Click += new System.EventHandler(this.miHelpAbout_Click);
             // 
+            // listCharacters
+            // 
+            this.listCharacters.FormattingEnabled = true;
+            this.listCharacters.ItemHeight = 20;
+            this.listCharacters.Location = new System.Drawing.Point(0, 31);
+            this.listCharacters.Name = "listCharacters";
+            this.listCharacters.Size = new System.Drawing.Size(270, 344);
+            this.listCharacters.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 403);
+            this.Controls.Add(this.listCharacters);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;
             this.MinimumSize = new System.Drawing.Size(260, 420);
@@ -157,6 +168,7 @@ namespace CharacterCreator.WinHost
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem miCharacterDelete;
         private System.Windows.Forms.ToolStripMenuItem miHelpAbout;
+        private System.Windows.Forms.ListBox listCharacters;
     }
 }
 

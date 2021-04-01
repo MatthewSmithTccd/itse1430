@@ -44,7 +44,22 @@ namespace CharacterCreator.WinHost
 
             //TODO: "Save" the character
             _character = form.Character;
-            
+
+            UpdateUI();
+
+        }
+
+        private void UpdateUI ()
+        {
+            //TODO: Clean up
+            var count = (_character != null) ? 1 : 0;
+            Character[] characters = new Character[count];
+            if (_character != null)
+                characters[0] = _character;
+
+            listCharacters.DataSource = characters;
+            listCharacters.DisplayMember = "Title";
+            //listCharacters.ValueMember = "Id";
         }
 
         private void OnCharacterDelete ( object sender, EventArgs e )
@@ -58,15 +73,27 @@ namespace CharacterCreator.WinHost
                 return;
 
             //TODO: "Delete" the movie
-            MessageBox.Show("Deleted the movie");
+            
             _character = null;
+
+            UpdateUI();
         }
 
         private void OnCharacterEdit ( object sender, EventArgs e )
         {
-            //TODO: If character exists then edit character
+            if (_character == null)
+                return;
 
-            //TODO: "Update" the character
+            var form = new CharacterDetailForm();
+            form.Character = _character;
+
+            if (form.ShowDialog(this) == DialogResult.Cancel)
+                return;
+
+            //TODO: "Save" the character
+            _character = form.Character;
+
+            UpdateUI();
         }
 
         private Character _character;

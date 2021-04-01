@@ -21,6 +21,11 @@ namespace CharacterCreator
         private int _constitutionAttribute;
         private int _charismaAttribute;
 
+        public override string ToString ()
+        {
+            return Name;
+        }
+
         /// <summary>Validates the character data is correct.</summary>
         /// <param name="error">The error message if any.</param>
         /// <returns>True if character is valid.</returns>

@@ -19,6 +19,15 @@ namespace CharacterCreator.WinHost
 
         public Character Character { get; set; }
 
+        
+        protected override void OnLoad ( EventArgs e )
+        {
+            base.OnLoad(e);
+
+            if (Character != null)
+                LoadCharacter(Character);
+        }
+
         private void OnSave ( object sender, EventArgs e )
         {
             //Creating Character
@@ -28,9 +37,11 @@ namespace CharacterCreator.WinHost
             if (!character.Validate(out var error))
             {
                 MessageBox.Show(error, "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.None;
                 return;
             };
 
+            Character = character;
             this.DialogResult = DialogResult.OK;
             Close();
         }
@@ -51,13 +62,28 @@ namespace CharacterCreator.WinHost
             return -1;
         }
 
+        private void LoadCharacter (Character character)
+        {
+            txtName.Text = character.Name;
+            cbProfession.Text = character.Profession;
+            cbRace.Text = character.Race;
+            txtBiography.Text = character.Biography;
+            
+            txtStrength.Text = character.StrengthAttribute.ToString();
+            txtIntelligence.Text = character.IntelligenceAttribute.ToString();
+            txtAgility.Text = character.AgilityAttribute.ToString();
+            txtConstitution.Text = character.ConstitutionAttribute.ToString();
+            txtCharisma.Text = character.CharismaAttribute.ToString();
+
+        }
+
         private Character SaveCharacter()
         {
             var character = new Character();
 
             character.Name = txtName.Text;
-            character.Profession = cbProfession.SelectedText;
-            character.Race = cbRace.SelectedText;
+            character.Profession = cbProfession.Text;
+            character.Race = cbRace.Text;
             character.Biography = txtBiography.Text;
             character.StrengthAttribute = GetInt32(txtStrength);
             character.IntelligenceAttribute = GetInt32(txtIntelligence);
