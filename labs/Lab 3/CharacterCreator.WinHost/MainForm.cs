@@ -49,6 +49,11 @@ namespace CharacterCreator.WinHost
 
         }
 
+        private Character GetSelectedCharacter ()
+        {
+            return listCharacters.SelectedItem as Character;
+        }
+
         private void UpdateUI ()
         {
             //TODO: Clean up
@@ -65,15 +70,15 @@ namespace CharacterCreator.WinHost
         private void OnCharacterDelete ( object sender, EventArgs e )
         {
             //If a character exists then display confirmation and delete
-            if (_character == null)
+            var character = GetSelectedCharacter();
+            if (character == null)
                 return;
 
-            var result = MessageBox.Show(this, $"Are you sure you want to delete '{_character.Name}'?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result = MessageBox.Show(this, $"Are you sure you want to delete '{character.Name}'?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result != DialogResult.Yes)
                 return;
 
             //TODO: "Delete" the movie
-            
             _character = null;
 
             UpdateUI();
@@ -81,11 +86,12 @@ namespace CharacterCreator.WinHost
 
         private void OnCharacterEdit ( object sender, EventArgs e )
         {
+            var character = GetSelectedCharacter();
             if (_character == null)
                 return;
 
             var form = new CharacterDetailForm();
-            form.Character = _character;
+            form.Character = character;
 
             if (form.ShowDialog(this) == DialogResult.Cancel)
                 return;

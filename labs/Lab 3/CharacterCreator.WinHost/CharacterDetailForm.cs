@@ -65,8 +65,10 @@ namespace CharacterCreator.WinHost
         private void LoadCharacter (Character character)
         {
             txtName.Text = character.Name;
-            cbProfession.Text = character.Profession;
-            cbRace.Text = character.Race;
+
+            cbProfession.SelectedItem = character.Profession;
+            cbRace.SelectedItem = character.Race;
+
             txtBiography.Text = character.Biography;
             
             txtStrength.Text = character.StrengthAttribute.ToString();
@@ -82,9 +84,12 @@ namespace CharacterCreator.WinHost
             var character = new Character();
 
             character.Name = txtName.Text;
-            character.Profession = cbProfession.Text;
-            character.Race = cbRace.Text;
+
+            character.Profession = cbProfession.SelectedItem as string;
+            character.Race = cbRace.SelectedItem as string;
+
             character.Biography = txtBiography.Text;
+
             character.StrengthAttribute = GetInt32(txtStrength);
             character.IntelligenceAttribute = GetInt32(txtIntelligence);
             character.AgilityAttribute = GetInt32(txtAgility);
@@ -92,6 +97,38 @@ namespace CharacterCreator.WinHost
             character.CharismaAttribute = GetInt32(txtCharisma);
             
             return character;
+        }
+
+        private void OnValidatingName ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            if (String.IsNullOrEmpty(control.Text))
+            {
+                //Invalid
+                _errors.SetError(control, "Name is required");
+                e.Cancel = true;
+            }else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidatingProfession ( object sender, CancelEventArgs e )
+        {
+            var control = sender as ComboBox;
+
+            var profession = control.SelectedItem as string;
+
+            if (String.IsNullOrEmpty(profession))
+            {
+                //Invalid
+                _errors.SetError(control, "Profession is required");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
         }
     }
 }
