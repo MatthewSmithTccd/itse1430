@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Character Creator - Lab 3
+ * ITSE 1430
+ * Spring 2021
+ * Matthew Smith
+ * April 1, 2021
+ */
+using System;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 //using System.Data;
@@ -78,7 +85,7 @@ namespace CharacterCreator.WinHost
             if (result != DialogResult.Yes)
                 return;
 
-            //TODO: "Delete" the movie
+            //Delete" the movie
             _character = null;
 
             UpdateUI();
@@ -92,11 +99,12 @@ namespace CharacterCreator.WinHost
 
             var form = new CharacterDetailForm();
             form.Character = character;
+            form.Text = "Edit Character";
 
             if (form.ShowDialog(this) == DialogResult.Cancel)
                 return;
 
-            //TODO: "Save" the character
+            //"Save" the character
             _character = form.Character;
 
             UpdateUI();

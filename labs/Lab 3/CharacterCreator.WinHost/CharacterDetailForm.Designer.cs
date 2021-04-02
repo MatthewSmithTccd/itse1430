@@ -195,6 +195,7 @@ namespace CharacterCreator.WinHost
             this.cbRace.Name = "cbRace";
             this.cbRace.Size = new System.Drawing.Size(151, 28);
             this.cbRace.TabIndex = 3;
+            this.cbRace.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidatingRace);
             // 
             // txtName
             // 
@@ -223,6 +224,7 @@ namespace CharacterCreator.WinHost
             this.txtStrength.Size = new System.Drawing.Size(125, 27);
             this.txtStrength.TabIndex = 5;
             this.txtStrength.Text = "50";
+            this.txtStrength.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidatingStat);
             // 
             // txtIntelligence
             // 
@@ -232,6 +234,7 @@ namespace CharacterCreator.WinHost
             this.txtIntelligence.Size = new System.Drawing.Size(125, 27);
             this.txtIntelligence.TabIndex = 6;
             this.txtIntelligence.Text = "50";
+            this.txtIntelligence.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidatingStat);
             // 
             // txtAgility
             // 
@@ -241,6 +244,7 @@ namespace CharacterCreator.WinHost
             this.txtAgility.Size = new System.Drawing.Size(125, 27);
             this.txtAgility.TabIndex = 7;
             this.txtAgility.Text = "50";
+            this.txtAgility.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidatingStat);
             // 
             // txtConstitution
             // 
@@ -250,6 +254,7 @@ namespace CharacterCreator.WinHost
             this.txtConstitution.Size = new System.Drawing.Size(125, 27);
             this.txtConstitution.TabIndex = 8;
             this.txtConstitution.Text = "50";
+            this.txtConstitution.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidatingStat);
             // 
             // txtCharisma
             // 
@@ -259,6 +264,7 @@ namespace CharacterCreator.WinHost
             this.txtCharisma.Size = new System.Drawing.Size(125, 27);
             this.txtCharisma.TabIndex = 9;
             this.txtCharisma.Text = "50";
+            this.txtCharisma.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidatingStat);
             // 
             // _errors
             // 
@@ -292,8 +298,12 @@ namespace CharacterCreator.WinHost
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(589, 363);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(589, 363);
             this.Name = "CharacterDetailForm";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Create New Character";
             ((System.ComponentModel.ISupportInitialize)(this._errors)).EndInit();

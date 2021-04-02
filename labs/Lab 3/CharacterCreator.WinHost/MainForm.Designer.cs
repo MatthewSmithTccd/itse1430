@@ -52,7 +52,7 @@ namespace CharacterCreator.WinHost
             this.toolStripMenuItem3});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(297, 28);
+            this.mainMenu.Size = new System.Drawing.Size(282, 28);
             this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "menuStrip1";
             // 
@@ -135,14 +135,14 @@ namespace CharacterCreator.WinHost
             this.listCharacters.ItemHeight = 20;
             this.listCharacters.Location = new System.Drawing.Point(0, 28);
             this.listCharacters.Name = "listCharacters";
-            this.listCharacters.Size = new System.Drawing.Size(297, 372);
+            this.listCharacters.Size = new System.Drawing.Size(282, 375);
             this.listCharacters.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(297, 400);
+            this.ClientSize = new System.Drawing.Size(282, 403);
             this.Controls.Add(this.listCharacters);
             this.Controls.Add(this.mainMenu);
             this.MainMenuStrip = this.mainMenu;

@@ -1,11 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+ * Character Creator - Lab 3
+ * ITSE 1430
+ * Spring 2021
+ * Matthew Smith
+ * April 1, 2021
+ */
+using System;
+//using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+//using System.Data;
+//using System.Drawing;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CharacterCreator.WinHost
@@ -30,6 +37,13 @@ namespace CharacterCreator.WinHost
 
         private void OnSave ( object sender, EventArgs e )
         {
+            //Validate UI
+            if (!ValidateChildren())
+            {
+                DialogResult = DialogResult.None;
+                return;
+            }
+            
             //Creating Character
             var character = SaveCharacter();
 
@@ -37,12 +51,12 @@ namespace CharacterCreator.WinHost
             if (!character.Validate(out var error))
             {
                 MessageBox.Show(error, "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
                 return;
             };
 
             Character = character;
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -129,6 +143,41 @@ namespace CharacterCreator.WinHost
             {
                 _errors.SetError(control, "");
             };
+        }
+
+        private void OnValidatingRace ( object sender, CancelEventArgs e )
+        {
+            var control = sender as ComboBox;
+
+            var race = control.SelectedItem as string;
+
+            if (String.IsNullOrEmpty(race))
+            {
+                //Invalid
+                _errors.SetError(control, "Race is required");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+        }
+
+        private void OnValidatingStat ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            var value = GetInt32(control);
+
+            if (value < 1 || value > 100)
+            {
+                //Invalid
+                _errors.SetError(control, "Value must be between 1 and 100");
+                e.Cancel = true;
+            } else
+            {
+                _errors.SetError(control, "");
+            };
+
         }
     }
 }
