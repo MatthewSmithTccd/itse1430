@@ -52,6 +52,14 @@ namespace MovieLibrary.WinHost
             Close();
         }
 
+        // try-catch block - handles exception
+        //      try-catch-statement ::= try-block catch block+
+        //      try-block :: = try { S* }
+        //      catch-block ::= catch [catch-type] { S* }
+        //      catch-type ::= (T id)
+        //      executes all code inside try-block
+        //          If anything throws an exception, stops execution of remainder of try block
+        //          Jumps to catch block looking for handler (error handling mode)
         private void OnMovieAdd ( object sender, EventArgs e )
         {
             var form = new MovieDetailForm();
@@ -61,12 +69,24 @@ namespace MovieLibrary.WinHost
                 if (form.ShowDialog(this) == DialogResult.Cancel)
                     return;
 
-                //Save the movie
-                _database.Add(form.Movie, out var error);
-                if (String.IsNullOrEmpty(error))
-                    break;
+                try
+                { 
+                    //Save the movie
+                    _database.Add(form.Movie);
+                    //if (String.IsNullOrEmpty(error))
+                    //    break;
 
-                DisplayError("Add Failed", error);
+                    //Only gets here if it works
+                    break;
+                } catch (ArgumentException ex)
+                {
+                    DisplayError("Add Failed", "You didn't pass the args right");
+                } catch (Exception ex)
+                {
+                    //Error Handling
+                    DisplayError("Add Failed", ex.Message);
+                };
+                //DisplayError("Add Failed", error);
             } while (true);
 
             UpdateUI();
@@ -88,8 +108,16 @@ namespace MovieLibrary.WinHost
             if (result != DialogResult.Yes)
                 return;
 
-            //TODO: Error checking
-            _database.Delete(movie.Id, out var error);
+            
+            try
+            {
+                _database.Delete(movie.Id);
+            }
+            catch (Exception ex)
+            {
+                DisplayError("Delete Failed", ex.Message);
+            };
+            
 
             UpdateUI();
         }
@@ -111,11 +139,16 @@ namespace MovieLibrary.WinHost
                     return;
 
                 //Save the movie
-                _database.Update(movie.Id, form.Movie, out var error);
-                if (String.IsNullOrEmpty(error))
+                try
+                {
+                    _database.Update(movie.Id, form.Movie);
                     break;
-
-                DisplayError("Add Failed", error);
+                } catch (Exception ex)
+                {
+                    DisplayError("Add Failed", ex.Message);
+                };
+                //if (String.IsNullOrEmpty(error))
+                //    break;
             } while (true);
 
             UpdateUI();
@@ -131,14 +164,26 @@ namespace MovieLibrary.WinHost
 
         private void UpdateUI ()
         {
-            var movies = _database.GetAll();
-
-            //Can bind listbox using Items or DataSource            
-            lstMovies.DataSource = movies.ToArray();
             lstMovies.DisplayMember = "Title";
+
+            try
+            {
+                var movies = _database.GetAll();
+                //Can bind listbox using Items or DataSource            
+                lstMovies.DataSource = movies.ToArray();
+                
+            }
+            catch (Exception e)
+            {
+                DisplayError("Error retrieving movies", e.Message);
+
+                lstMovies.DataSource = new Movie[0];
+            };
+
+            
         }
 
-        private readonly IMovieDatabase _database = new MemoryMovieDatabase();
+        private readonly IMovieDatabase _database = new IO.FileMovieDatabase("movies.csv");
 
         #endregion
     }

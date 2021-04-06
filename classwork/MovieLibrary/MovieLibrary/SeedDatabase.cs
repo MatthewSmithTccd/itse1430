@@ -32,9 +32,9 @@ namespace MovieLibrary
                 RunLength = 210
             };
 
-            database.Add(movie1, out var error);
-            database.Add(movie2, out error);
-            database.Add(movie3, out error);
+            database.Add(movie1);
+            database.Add(movie2);
+            database.Add(movie3);
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieLibrary
 {
-    //TODO: 
-    //  Should not return Movie directly from DB because it is a reference type and user could change data outside database
-
-    /// <summary>Represents an in-memory movie database.</summary>
-    public class MemoryMovieDatabase : IMovieDatabase
+    /// <summary>Represents a base implementation of movie database.</summary>
+    public abstract class MovieDatabase : IMovieDatabase
     {
         //public void NotVisibleInInterface () { }
 
@@ -68,12 +66,20 @@ namespace MovieLibrary
             };
 
             //Add the movie
-            movie.Id = ++_id;
-            _movies.Add(CloneMovie(movie));
+            return AddCore(movie);
+            //movie.Id = ++_id;
+            //_movies.Add(CloneMovie(movie));
 
             //error = null;
-            return movie;
+            //return movie;
         }
+
+        /// <summary>
+        /// Adds the movie to the database
+        /// </summary>
+        /// <param name="movie"></param>
+        /// <returns>The new movie.</returns>
+        protected abstract Movie AddCore ( Movie movie );
 
         public void Delete ( int id )
         {
@@ -82,10 +88,10 @@ namespace MovieLibrary
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
 
             //Delete
-            var existing = FindById(id);
-            if (existing != null)
-                _movies.Remove(existing);
+            DeleteCore(id);
         }
+
+        protected abstract void DeleteCore ( int id );
 
         public Movie Get ( int id )
         {
@@ -94,35 +100,19 @@ namespace MovieLibrary
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
 
             //Get
-            var existing = FindById(id);
-            if (existing == null)
-                return null;
-
-            return CloneMovie(existing);
+            return GetCore(id);
         }
 
-        // Iterator - returns back data on demand
-        //   - they ONLY work with methods that return IEnumerable<T>
-        //   - all return statements must be preceded with yield
-        // IEnumerable<T> is readonly, use for returning a readonly set of values
-        //public Movie[] GetAll ()
+        protected abstract Movie GetCore ( int id );
+
+        
         public IEnumerable<Movie> GetAll ()
         {
-            //Counter determines # of items in list
-            //var items = new Movie[_movies.Count];
-
-            //Foreach - preferred for enumeration
-            //   item is readonly
-            //   cannot write to array
-            //   array cannot change during enumeration
-            //int index = 0;
-            foreach (var item in _movies)
-                //Clone the movie so the caller can manipulate the movie without breaking our copy
-                //items[index++] = CloneMovie(item);
-                yield return CloneMovie(item);
-
-            //return items;
+            //Will never return null
+            return GetAllCore() ?? Enumerable.Empty<Movie>();
         }
+
+        protected abstract IEnumerable<Movie> GetAllCore ();
 
         public void Update ( int id, Movie movie )
         {
@@ -141,71 +131,20 @@ namespace MovieLibrary
                 throw new InvalidOperationException("Movie title must be unique.");
 
             //Must exist
-            existing = FindById(id);
-            if (existing == null)
-                throw new Exception("Movie does not exist.");
+            //existing = FindById(id);
+            //if (existing == null)
+            //    throw new Exception("Movie does not exist.");
+            //existing = FindById(id) ?? throw new Exception("Movie does not exist.");
 
-            //Update the movie
-            CopyMovie(existing, movie);
+            UpdateCore(id, movie);
+            
         }
 
-        private Movie CloneMovie ( Movie movie )
+        protected abstract void UpdateCore ( int id, Movie movie );
+
+        protected virtual Movie FindByTitle ( string title )
         {
-            var target = new Movie() {
-                Id = movie.Id
-            };
-
-            CopyMovie(target, movie);
-            return target;
-        }
-
-        private void CopyMovie ( Movie target, Movie source )
-        {
-            //Object initializer syntax - creates an initializes an object as a single expression
-            // 1. Remove semicolon from end of new expression
-            // 2. Put curly braces after new expression
-            // 3. Move closing curly after last property assignment
-            // 4. Replace each semicolon on property assignment with a comma
-            // 5. Remove the temp variable name and member access on each property
-            // Limitations
-            //   - Only works with new 
-            //   - Can only assign a value to settable properties
-            //   - Cannot access the newly created value while inside the initializer
-            //var target = new Movie();
-            //target.Id = movie.Id;
-            target.Title = source.Title;
-            target.Description = source.Description;
-            target.ReleaseYear = source.ReleaseYear;
-            target.Rating = source.Rating;
-            target.RunLength = source.RunLength;
-            target.IsClassic = source.IsClassic;
-            //var target = new Movie() {
-            //return new Movie() {
-            //    Id = movie.Id,
-            //    Title = movie.Title,
-            //    Description = movie.Description,
-            //    ReleaseYear = movie.ReleaseYear,
-            //    Rating = movie.Rating,
-            //    RunLength = movie.RunLength,
-            //    IsClassic = movie.IsClassic,
-            //};
-            //return target;
-        }
-
-        private Movie FindById ( int id )
-        {
-            foreach (var item in _movies)
-            {
-                if (item.Id == id)
-                    return item;
-            };
-
-            return null;
-        }
-
-        private Movie FindByTitle ( string title )
-        {
-            foreach (var item in _movies)
+            foreach (var item in GetAllCore())
             {
                 //Match movie by title, case insensitive
                 if (String.Compare(item.Title, title, true) == 0)
@@ -220,10 +159,10 @@ namespace MovieLibrary
         //   open type - cannot be instantiated because at least one type parameter is missing
         //private Movie[] _movies = new Movie[100];
         // List<T> is a dynamic resizing array of T
-        private readonly List<Movie> _movies = new List<Movie>();
+        //private readonly List<Movie> _movies = new List<Movie>();
         //private readonly System.Collections.ObjectModel.Collection<Movie> _movies = new System.Collections.ObjectModel.Collection<Movie>();
 
-        private int _id;
+        //private int _id;
 
         // Collection<T> vs List<T>
         //  List<T> - low level implementation of a dynamic array, private facing
