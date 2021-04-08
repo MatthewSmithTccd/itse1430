@@ -31,9 +31,9 @@ namespace MovieLibrary
         public Movie Add ( Movie movie )
         {
             //Validation
-            //  Check for null and valid movie
             if (movie == null)
                 throw new ArgumentNullException(nameof(movie));
+
             //{
             //    error = "Movie is null";
             //    return null;
@@ -67,17 +67,10 @@ namespace MovieLibrary
 
             //Add the movie
             return AddCore(movie);
-            //movie.Id = ++_id;
-            //_movies.Add(CloneMovie(movie));
-
-            //error = null;
-            //return movie;
         }
 
-        /// <summary>
-        /// Adds the movie to the database
-        /// </summary>
-        /// <param name="movie"></param>
+        /// <summary>Adds the movie to the database.</summary>
+        /// <param name="movie">The movie to add.</param>
         /// <returns>The new movie.</returns>
         protected abstract Movie AddCore ( Movie movie );
 
@@ -105,7 +98,6 @@ namespace MovieLibrary
 
         protected abstract Movie GetCore ( int id );
 
-        
         public IEnumerable<Movie> GetAll ()
         {
             //Will never return null
@@ -130,14 +122,24 @@ namespace MovieLibrary
             if (existing != null && existing.Id != id)
                 throw new InvalidOperationException("Movie title must be unique.");
 
-            //Must exist
-            //existing = FindById(id);
-            //if (existing == null)
-            //    throw new Exception("Movie does not exist.");
-            //existing = FindById(id) ?? throw new Exception("Movie does not exist.");
-
-            UpdateCore(id, movie);
-            
+            //Hiding exception details
+            //   Wrap it - create a new exception to hide the original
+            //   Rethrow - let original exception continue on
+            try
+            {
+                UpdateCore(id, movie);
+            } catch (ArgumentException e)
+            {
+                //throw e; //NEVER DO THIS
+                throw;
+            } catch (InvalidOperationException e)
+            {
+                throw;
+            } catch (Exception e)
+            {
+                //Wrapping existing exception in a new one
+                throw new Exception("Update failed", e);
+            };
         }
 
         protected abstract void UpdateCore ( int id, Movie movie );
@@ -153,56 +155,5 @@ namespace MovieLibrary
 
             return null;
         }
-
-        // Generic type - a class that uses the same implementation irrelevant of the type        
-        //   closed type - can be instantiated because all type parameters are specified
-        //   open type - cannot be instantiated because at least one type parameter is missing
-        //private Movie[] _movies = new Movie[100];
-        // List<T> is a dynamic resizing array of T
-        //private readonly List<Movie> _movies = new List<Movie>();
-        //private readonly System.Collections.ObjectModel.Collection<Movie> _movies = new System.Collections.ObjectModel.Collection<Movie>();
-
-        //private int _id;
-
-        // Collection<T> vs List<T>
-        //  List<T> - low level implementation of a dynamic array, private facing
-        //  Collection<T> - high level impl of a dynamic array, public facing
-        //private System.Collections.ObjectModel.Collection<Movie> _test = new System.Collections.ObjectModel.Collection<Movie>();
     }
-
-    //class GenericDynamicArray<T>
-    //{
-    //    public T Get ( int index );
-    //    public void Add ( T item );
-    //    public void Remove ( T item );
-
-    //    private T[] _items;
-    //}
-
-    //class MovieDynamicArray
-    //{
-    //    public Movie Get ( int index );
-    //    public void Add ( Movie item );
-    //    public void Remove ( Movie item );
-
-    //    private Movie[] _items;
-    //}
-
-    //class StringDynamicArray
-    //{
-    //    public string Get ( int index );
-    //    public void Add ( string item );
-    //    public void Remove ( string item );
-
-    //    private string[] _items;
-    //}
-
-    //class Int32DynamicArray
-    //{
-    //    public int Get ( int index );
-    //    public void Add ( int item );
-    //    public void Remove ( int item );
-
-    //    private int[] _items;
-    //}
 }
