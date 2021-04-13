@@ -48,7 +48,7 @@ namespace MovieLibrary
             //    //if (!movie.Validate(out error))
             //    return null;
             //};
-            new ObjectValidator().Validate(movie);
+            ObjectValidator.Validate(movie);
             //var errors = new ObjectValidator().TryValidate(movie);
             //if (errors.Count > 0)
             //{
@@ -115,7 +115,7 @@ namespace MovieLibrary
             if (movie == null)
                 throw new ArgumentNullException(nameof(movie));
 
-            new ObjectValidator().Validate(movie);
+            ObjectValidator.Validate(movie);
 
             //Must be unique
             var existing = FindByTitle(movie.Title);
@@ -146,6 +146,7 @@ namespace MovieLibrary
 
         protected virtual Movie FindByTitle ( string title )
         {
+            //TODO: Convert to Enumerable - FirstOrDefault
             foreach (var item in GetAllCore())
             {
                 //Match movie by title, case insensitive

@@ -69,8 +69,8 @@ namespace MovieLibrary.WinHost
             //Creating movie
             var movie = SaveMovie();
 
-            //TODO: Validation
-            var errors = new ObjectValidator().TryValidate(movie);
+            //Validation
+            var errors = ObjectValidator.TryValidate(movie);
             //if (!movie.Validate(out var error))
             if (errors.Count > 0)
             {
@@ -92,7 +92,7 @@ namespace MovieLibrary.WinHost
             Close();
         }
 
-        private int GetInt32 ( Control control )
+        private static int GetInt32 ( Control control )
         {
             var text = control.Text;
 

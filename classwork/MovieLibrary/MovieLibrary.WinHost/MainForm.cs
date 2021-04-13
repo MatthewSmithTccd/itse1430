@@ -23,8 +23,16 @@ namespace MovieLibrary.WinHost
             {
                 if (MessageBox.Show(this, "Do you want to seed the database?", "Seed Database", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var seed = new SeedDatabase();
-                    seed.Seed(_database);
+                    //var seed = new SeedDatabase();
+                    //seed.Seed(_database);
+                    //new SeedDatabase().Seed(_database);
+
+                    //Can create an instance but no instance members so useless
+                    //var seed = new SeedDatabase();
+
+                    //Calling static member requires the type
+                    //SeedDatabase.Seed(_database);
+                    _database.Seed();
                 };
             };
 

@@ -151,15 +151,34 @@ namespace MovieLibrary.IO
 
         private Movie FindById ( IEnumerable<Movie> items, int id )
         {
-            foreach (var item in items)
-                if (item.Id == id)
-                    return item;
+            //Enumerable.FirstOrDefault();
+            //  FirstOrDefault - finds the first matching item in IEnumerable<T> or returns the default value if not found
+            //  LastOrDefault - finds the last matching item, doesn't work in all cases outside of memory
+            //  First/Last - find the first/last matching item or throw exception otherwise
+            //  SingleOrDefault/Single - Finds the only matching item or throws an exception
 
-            return null;
+            //TODO: Broke it
+            //Enumerable.FirstOrDefault()
+            return items.FirstOrDefault();
+            //foreach (var item in items)
+            //    if (item.Id == id)
+            //        return item;
+
+            //return null;
         }
 
         private int GetHighestId ( IEnumerable<Movie> items )
         {
+            //TODO: Broke it
+            // Enumerable.
+            //    Max() - gets the max value
+            //    Min() - gets the min value
+            //    Sum() - sums the values
+            //    Count() - gets total items
+            //         IEnumerable<T> forward only iterations
+            //         List<T>.Count
+            //         T.Length
+            //return items.Max();
             var id = 0;
             foreach (var item in items)
             {
@@ -176,6 +195,12 @@ namespace MovieLibrary.IO
         {
             if (File.Exists(_filename))
             {
+                //TODO: Convert it
+                //  Enumerable
+                //     .Select() takes IEnumerable<T> and returns IEnumerable<S>
+                //     .Where() - returns IEnumerable<T> containing all items that match a condition
+                //     .OrderBy() returns IEnumerable<T> ordered by certain values
+
                 //ReadAllBytes - returns a byte[]
                 //ReadAllLines - returns a string[]
                 //ReadAllText - returns all lines as a single string
