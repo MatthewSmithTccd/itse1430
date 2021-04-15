@@ -158,7 +158,14 @@ namespace MovieLibrary.WinHost
 
         private Movie GetSelectedMovie ()
         {
+            // Enumerable has 2 type conversion methods
+            //   OfType<S> () -> takes IEnumerable<T> and returns IEnumerable<S> for each T that is an S
+            //   Cast<S> () -> takes IEnumerable<T> and casts each item to S, throwing an exception if any fail
+
             //Cast SelectedItem as Movie
+            //lstMovies.SelectedItems.OfType<Movie>();  // IEnumerable<Movie> item as T
+            //lstMovies.SelectedItems.Cast<Movie>();   // IEnumerable<Movie> (S)item
+
             return lstMovies.SelectedItem as Movie;
         }
 
@@ -168,6 +175,13 @@ namespace MovieLibrary.WinHost
 
             try
             {
+                // Enumerable has 2 conversion methods
+                //     ToArray () -> IEnumerable<T> to T[]
+                //     ToList () -> IEnumerable<T> to List<T>
+                // Notes:
+                //    1. They trigger a full enumeration of the entire items
+                //    2. No further deferred execution
+                //    3. Besides actually needing an array or list it is useful when you must ensure IEnumerable<T> code has fully executed
                 var movies = _database.GetAll();
 
                 //Can bind listbox using Items or DataSource            
