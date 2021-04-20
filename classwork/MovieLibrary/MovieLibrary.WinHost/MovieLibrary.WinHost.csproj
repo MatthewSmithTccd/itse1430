@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MovieLibrary.SqlServer\MovieLibrary.SqlServer.csproj" />
     <ProjectReference Include="..\MovieLibrary\MovieLibrary.csproj" />
   </ItemGroup>
 

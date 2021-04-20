@@ -194,7 +194,12 @@ namespace MovieLibrary.WinHost
             };
         }
 
-        private readonly IMovieDatabase _database = new IO.FileMovieDatabase("movies.csv");
+        // Connection strings - describe what to talk to (key=value;)
+        //  Server - machine hosting the database (can be . for local machine)
+        //  Database - database to connect to
+        //  Security - who is connecting
+        //  Others - additional features and options
+        private readonly IMovieDatabase _database = new SqlServer.SqlServerMovieDatabase(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=MovieDb;Integrated Security=True;");
 
         #endregion
     }
