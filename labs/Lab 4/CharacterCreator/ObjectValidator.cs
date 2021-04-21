@@ -1,29 +1,34 @@
 ﻿/*
- * Character Creator - Lab 3
+ * Character Creator - Lab 4
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
- * April 1, 2021
+ * April 23, 2021
  */
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CharacterCreator
 {
     public class ObjectValidator
     {
-        public ObjectValidator ( Character character ) 
-        { 
-            _character = character;
-        }
-  
-        public string Validate()
+
+        public List<ValidationResult> TryValidate ( IValidatableObject value )
         {
-            if (_character.Validate(out var message))
-                return "";
+            var context = new ValidationContext(value);
+            var errors = new List<ValidationResult>();
 
-            return message;
+            Validator.TryValidateObject(value, context, errors, true);
+
+            return errors;
         }
 
-        private Character _character;
+        public void Validate ( IValidatableObject value )
+        {
+            var context = new ValidationContext(value);
+
+            Validator.ValidateObject(value, context, true);
+        }
     }
 }

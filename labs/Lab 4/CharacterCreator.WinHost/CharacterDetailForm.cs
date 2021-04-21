@@ -1,9 +1,9 @@
 ﻿/*
- * Character Creator - Lab 3
+ * Character Creator - Lab 4
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
- * April 1, 2021
+ * April 23, 2021
  */
 using System;
 //using System.Collections.Generic;
@@ -26,7 +26,11 @@ namespace CharacterCreator.WinHost
 
         public Character Character { get; set; }
 
-        
+        protected override void OnFormClosing ( FormClosingEventArgs e )
+        {
+            base.OnFormClosing(e);
+        }
+
         protected override void OnLoad ( EventArgs e )
         {
             base.OnLoad(e);
@@ -48,9 +52,11 @@ namespace CharacterCreator.WinHost
             var character = SaveCharacter();
 
             //Validation
-            if (!character.Validate(out var error))
+            var errors = new ObjectValidator().TryValidate(character);
+            //if (!character.Validate(out var error))
+            if (errors.Count > 0)
             {
-                MessageBox.Show(error, "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, errors[0].ErrorMessage, "Save", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DialogResult = DialogResult.None;
                 return;
             };

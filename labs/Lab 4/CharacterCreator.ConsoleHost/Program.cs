@@ -1,8 +1,9 @@
 ﻿/*
- * Character Creator
+ * Character Creator - Lab 4
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
+ * April 23, 2021
  */
 using System;
 
@@ -10,357 +11,356 @@ namespace CharacterCreator.ConsoleHost
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main ( string[] args )
         {
-            Console.WriteLine("Character Creator \nITSE 1430 \nSpring 2021 \nMatthew Smith\n");
-            bool done = false;
-            do
-            {
-                char option = DisplayMainMenu();
+            //Console.WriteLine("Character Creator \nITSE 1430 \nSpring 2021 \nMatthew Smith\n");
+            //bool done = false;
+            //do
+            //{
+            //    char option = DisplayMainMenu();
 
-                switch (option)
-                {
-                    case 'A': AddNewCharacter(); break;
-                    case 'V': ViewCharacter(); break;
-                    case 'E': EditCharacter(); break;
-                    case 'D': DeleteCharacter(); break;
-                    case 'Q': if (ValidateQuit()) done = true; else done = false; break;
+            //    switch (option)
+            //    {
+            //        case 'A': AddNewCharacter(); break;
+            //        case 'V': ViewCharacter(); break;
+            //        case 'E': EditCharacter(); break;
+            //        case 'D': DeleteCharacter(); break;
+            //        case 'Q': if (ValidateQuit()) done = true; else done = false; break;
 
-                    default: DisplayError("Unknown command"); break;
-                };
+            //        default: DisplayError("Unknown command"); break;
+            //    };
 
-            } while (!done);
+            //} while (!done);
         }
 
-        private static void DeleteCharacter ()
-        {
-            if(_character != null)
-            {
-                ValidateDelete();
-            }else
-            {
-                DisplayError("No Character Created, Returning to Main Menu");
-            }
-        }
+        //private static void DeleteCharacter ()
+        //{
+        //    if (_character != null)
+        //    {
+        //        ValidateDelete();
+        //    } else
+        //    {
+        //        DisplayError("No Character Created, Returning to Main Menu");
+        //    }
+        //}
 
-        private static void ValidateDelete ()
-        {
-            do
-            {
-                Console.WriteLine("Are you sure you would like to delete your character?(Y/N) ");
-                string choice = Console.ReadLine();
+        //private static void ValidateDelete ()
+        //{
+        //    do
+        //    {
+        //        Console.WriteLine("Are you sure you would like to delete your character?(Y/N) ");
+        //        string choice = Console.ReadLine();
 
 
-                if (choice == "Y" || choice == "y")
-                {
-                    _character = null;
-                    break;
-                } 
-                else if (choice == "N" || choice == "n")
-                    break;
-                else
-                    DisplayError("Please enter Y or N ");
-            } while (true);
-        }
+        //        if (choice == "Y" || choice == "y")
+        //        {
+        //            _character = null;
+        //            break;
+        //        } else if (choice == "N" || choice == "n")
+        //            break;
+        //        else
+        //            DisplayError("Please enter Y or N ");
+        //    } while (true);
+        //}
 
-        private static bool ValidateChange ()
-        {
-            do
-            {
-                Console.WriteLine("Would you like to change this? (Y/N)");
-                string choice = Console.ReadLine();
+        //private static bool ValidateChange ()
+        //{
+        //    do
+        //    {
+        //        Console.WriteLine("Would you like to change this? (Y/N)");
+        //        string choice = Console.ReadLine();
 
-                if (choice == "Y" || choice == "y")
-                {
-                    return true;
-                } else if (choice == "N" || choice == "n")
-                    return false;
-                else
-                    DisplayError("Please enter Y or N ");
-            } while (true);
-        }
+        //        if (choice == "Y" || choice == "y")
+        //        {
+        //            return true;
+        //        } else if (choice == "N" || choice == "n")
+        //            return false;
+        //        else
+        //            DisplayError("Please enter Y or N ");
+        //    } while (true);
+        //}
 
-        private static void EditCharacter ()
-        {
-            if(_character != null)
-            {
-                Console.WriteLine($"Current Name: { _character.Name}");
-                if (ValidateChange())
-                {
-                    do
-                    {
-                        Console.WriteLine("Enter your character's new name: ");
-                        _character.Name = Console.ReadLine();
-                    } while (_character.Name == "");
-                }
+        //private static void EditCharacter ()
+        //{
+        //    if (_character != null)
+        //    {
+        //        Console.WriteLine($"Current Name: { _character.Name}");
+        //        if (ValidateChange())
+        //        {
+        //            do
+        //            {
+        //                Console.WriteLine("Enter your character's new name: ");
+        //                _character.Name = Console.ReadLine();
+        //            } while (_character.Name == "");
+        //        }
 
-                Console.WriteLine($"Current Profession: { _character.Profession}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Choose a new profession: ");
-                    _character.Profession = ChooseProfession();
-                }
+        //        Console.WriteLine($"Current Profession: { _character.Profession}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Choose a new profession: ");
+        //            _character.Profession = ChooseProfession();
+        //        }
 
-                Console.WriteLine($"Current Race: { _character.Race}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Choose a new race: ");
-                    _character.Race = ChooseRace();
-                }
+        //        Console.WriteLine($"Current Race: { _character.Race}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Choose a new race: ");
+        //            _character.Race = ChooseRace();
+        //        }
 
-                Console.WriteLine($"Current Biography: { _character.Biography}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Write a new Biography(optional): ");
-                    _character.Biography = Console.ReadLine();
-                }
+        //        Console.WriteLine($"Current Biography: { _character.Biography}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Write a new Biography(optional): ");
+        //            _character.Biography = Console.ReadLine();
+        //        }
 
-                Console.WriteLine("Attributes");
-                Console.WriteLine("----------");
+        //        Console.WriteLine("Attributes");
+        //        Console.WriteLine("----------");
 
-                Console.WriteLine($"Current Strength: {_character.StrengthAttribute}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Assign New Strength Attribute(1-100): ");
-                    _character.StrengthAttribute = ReadAttribute();
-                }
+        //        Console.WriteLine($"Current Strength: {_character.StrengthAttribute}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Assign New Strength Attribute(1-100): ");
+        //            _character.StrengthAttribute = ReadAttribute();
+        //        }
 
-                Console.WriteLine($"Current Intelligence: {_character.IntelligenceAttribute}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Assign New Intelligence Attribute(1-100): ");
-                    _character.IntelligenceAttribute = ReadAttribute();
-                }
+        //        Console.WriteLine($"Current Intelligence: {_character.IntelligenceAttribute}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Assign New Intelligence Attribute(1-100): ");
+        //            _character.IntelligenceAttribute = ReadAttribute();
+        //        }
 
-                Console.WriteLine($"Current Agility: {_character.AgilityAttribute}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Assign New Agility Attribute(1-100): ");
-                    _character.AgilityAttribute = ReadAttribute();
-                }
+        //        Console.WriteLine($"Current Agility: {_character.AgilityAttribute}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Assign New Agility Attribute(1-100): ");
+        //            _character.AgilityAttribute = ReadAttribute();
+        //        }
 
-                Console.WriteLine($"Current Constitution: {_character.ConstitutionAttribute}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Assign New Constitution Attribute(1-100): ");
-                    _character.ConstitutionAttribute = ReadAttribute();
-                }
+        //        Console.WriteLine($"Current Constitution: {_character.ConstitutionAttribute}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Assign New Constitution Attribute(1-100): ");
+        //            _character.ConstitutionAttribute = ReadAttribute();
+        //        }
 
-                Console.WriteLine($"Current Charisma: {_character.CharismaAttribute}");
-                if (ValidateChange())
-                {
-                    Console.WriteLine("Assign New Charisma Attribute(1-100): ");
-                    _character.CharismaAttribute = ReadAttribute();
-                }
+        //        Console.WriteLine($"Current Charisma: {_character.CharismaAttribute}");
+        //        if (ValidateChange())
+        //        {
+        //            Console.WriteLine("Assign New Charisma Attribute(1-100): ");
+        //            _character.CharismaAttribute = ReadAttribute();
+        //        }
 
-                Console.WriteLine("Updated Character as follows:");
-                ViewCharacter();
+        //        Console.WriteLine("Updated Character as follows:");
+        //        ViewCharacter();
 
-            } else
-            {
-                Console.WriteLine("No Character Exists, Creating New Character");
-                AddNewCharacter();
-            }
-        }
+        //    } else
+        //    {
+        //        Console.WriteLine("No Character Exists, Creating New Character");
+        //        AddNewCharacter();
+        //    }
+        //}
 
-        private static void ViewCharacter ()
-        {
-            if (_character != null)
-            {
-                Console.WriteLine($"Name: { _character.Name}");
-                Console.WriteLine($"Profession: { _character.Profession}");
-                Console.WriteLine($"Race: { _character.Race}");
-                Console.WriteLine($"Biography: { _character.Biography}");
-                Console.WriteLine("Attributes");
-                Console.WriteLine("----------");
-                Console.WriteLine($"Strength: {_character.StrengthAttribute}");
-                Console.WriteLine($"Intelligence: {_character.IntelligenceAttribute}");
-                Console.WriteLine($"Agility: {_character.AgilityAttribute}");
-                Console.WriteLine($"Constitution: {_character.ConstitutionAttribute}");
-                Console.WriteLine($"Charisma: {_character.CharismaAttribute}");
-            } else
-            {
-                DisplayError("No Character Created Yet. Returning to Main Menu");
-            }
-        }
-       
-        public static void AddNewCharacter ()
-        {
-            Character character;
-            character = new Character();
+        //private static void ViewCharacter ()
+        //{
+        //    if (_character != null)
+        //    {
+        //        Console.WriteLine($"Name: { _character.Name}");
+        //        Console.WriteLine($"Profession: { _character.Profession}");
+        //        Console.WriteLine($"Race: { _character.Race}");
+        //        Console.WriteLine($"Biography: { _character.Biography}");
+        //        Console.WriteLine("Attributes");
+        //        Console.WriteLine("----------");
+        //        Console.WriteLine($"Strength: {_character.StrengthAttribute}");
+        //        Console.WriteLine($"Intelligence: {_character.IntelligenceAttribute}");
+        //        Console.WriteLine($"Agility: {_character.AgilityAttribute}");
+        //        Console.WriteLine($"Constitution: {_character.ConstitutionAttribute}");
+        //        Console.WriteLine($"Charisma: {_character.CharismaAttribute}");
+        //    } else
+        //    {
+        //        DisplayError("No Character Created Yet. Returning to Main Menu");
+        //    }
+        //}
 
-            do
-            {
-                Console.WriteLine("Enter your character's name: ");
-                character.Name = Console.ReadLine();
-            } while (character.Name == "");
+        //public static void AddNewCharacter ()
+        //{
+        //    Character character;
+        //    character = new Character();
 
-            Console.WriteLine("Choose a profession: ");
-            character.Profession = ChooseProfession();
+        //    do
+        //    {
+        //        Console.WriteLine("Enter your character's name: ");
+        //        character.Name = Console.ReadLine();
+        //    } while (character.Name == "");
 
-            Console.WriteLine("Choose a race: ");
-            character.Race = ChooseRace();
+        //    Console.WriteLine("Choose a profession: ");
+        //    character.Profession = ChooseProfession();
 
-            Console.WriteLine("Biography(optional): ");
-            character.Biography = Console.ReadLine();
+        //    Console.WriteLine("Choose a race: ");
+        //    character.Race = ChooseRace();
 
-            Console.WriteLine("Assign Strength Attribute(1-100): ");
-            character.StrengthAttribute = ReadAttribute();
+        //    Console.WriteLine("Biography(optional): ");
+        //    character.Biography = Console.ReadLine();
 
-            Console.WriteLine("Assign Intelligence Attribute(1-100): ");
-            character.IntelligenceAttribute = ReadAttribute();
+        //    Console.WriteLine("Assign Strength Attribute(1-100): ");
+        //    character.StrengthAttribute = ReadAttribute();
 
-            Console.WriteLine("Assign Agility Attribute(1-100): ");
-            character.AgilityAttribute = ReadAttribute();
+        //    Console.WriteLine("Assign Intelligence Attribute(1-100): ");
+        //    character.IntelligenceAttribute = ReadAttribute();
 
-            Console.WriteLine("Assign Constitution Attribute(1-100): ");
-            character.ConstitutionAttribute = ReadAttribute();
+        //    Console.WriteLine("Assign Agility Attribute(1-100): ");
+        //    character.AgilityAttribute = ReadAttribute();
 
-            Console.WriteLine("Assign Charisma Attribute(1-100): ");
-            character.CharismaAttribute = ReadAttribute();
+        //    Console.WriteLine("Assign Constitution Attribute(1-100): ");
+        //    character.ConstitutionAttribute = ReadAttribute();
 
-            _character = character;
-        }
+        //    Console.WriteLine("Assign Charisma Attribute(1-100): ");
+        //    character.CharismaAttribute = ReadAttribute();
 
-        static Character _character;
+        //    _character = character;
+        //}
 
-        private static int ReadAttribute ()
-        {
-            do
-            {
-                var input = Console.ReadLine();
+        //static Character _character;
 
-                if (Int32.TryParse(input, out var result))
-                {
-                    //Make sure it is at least minValue
-                    if (result > 0 && result < 101)
-                        return result;
-                    else
-                        DisplayError("Value must be between 1 and 100");
-                } else
-                    DisplayError("Value must be numeric");
-            } while (true);
-        }
+        //private static int ReadAttribute ()
+        //{
+        //    do
+        //    {
+        //        var input = Console.ReadLine();
 
-        private static string ChooseRace ()
-        {
-            Console.WriteLine("(D)warf, (E)lf, (G)nome, (H)alf-Elf, H(U)man");
-            Console.WriteLine("Press D, E, G, H, or U: ");
-            
-            do
-            {
-                string choice = Console.ReadLine();
-                switch (choice)
-                {
-                    case "D":
-                    case "d": return "Dwarf";
+        //        if (Int32.TryParse(input, out var result))
+        //        {
+        //            //Make sure it is at least minValue
+        //            if (result > 0 && result < 101)
+        //                return result;
+        //            else
+        //                DisplayError("Value must be between 1 and 100");
+        //        } else
+        //            DisplayError("Value must be numeric");
+        //    } while (true);
+        //}
 
-                    case "E":
-                    case "e": return "Elf";
+        //private static string ChooseRace ()
+        //{
+        //    Console.WriteLine("(D)warf, (E)lf, (G)nome, (H)alf-Elf, H(U)man");
+        //    Console.WriteLine("Press D, E, G, H, or U: ");
 
-                    case "G":
-                    case "g": return "Gnome";
+        //    do
+        //    {
+        //        string choice = Console.ReadLine();
+        //        switch (choice)
+        //        {
+        //            case "D":
+        //            case "d": return "Dwarf";
 
-                    case "H":
-                    case "h": return "Half Elf";
+        //            case "E":
+        //            case "e": return "Elf";
 
-                    case "U":
-                    case "u": return "Human";
-                };
+        //            case "G":
+        //            case "g": return "Gnome";
 
-                DisplayError("Invalid Option. Try again.");
-            } while (true);
-        }
+        //            case "H":
+        //            case "h": return "Half Elf";
 
-        private static string ChooseProfession ()
-        {
-            Console.WriteLine("(F)ighter, (H)unter, (P)riest, (R)ogue, (W)izard");
-            Console.WriteLine("Press F, H, P, R, or W: ");
-            
-            do
-            {
-                string choice = Console.ReadLine();
-                switch (choice)
-                {
-                    case "F":
-                    case "f": return "Fighter";
+        //            case "U":
+        //            case "u": return "Human";
+        //        };
 
-                    case "H":
-                    case "h": return "Hunter";
+        //        DisplayError("Invalid Option. Try again.");
+        //    } while (true);
+        //}
 
-                    case "P":
-                    case "p": return "Priest";
+        //private static string ChooseProfession ()
+        //{
+        //    Console.WriteLine("(F)ighter, (H)unter, (P)riest, (R)ogue, (W)izard");
+        //    Console.WriteLine("Press F, H, P, R, or W: ");
 
-                    case "R":
-                    case "r": return "Rogue";
+        //    do
+        //    {
+        //        string choice = Console.ReadLine();
+        //        switch (choice)
+        //        {
+        //            case "F":
+        //            case "f": return "Fighter";
 
-                    case "W":
-                    case "w": return "Wizard";
-                };
+        //            case "H":
+        //            case "h": return "Hunter";
 
-                DisplayError("Invalid Option. Try again.");
-            } while (true);
+        //            case "P":
+        //            case "p": return "Priest";
 
-        }
+        //            case "R":
+        //            case "r": return "Rogue";
 
-        private static char DisplayMainMenu ()
-        {
+        //            case "W":
+        //            case "w": return "Wizard";
+        //        };
 
-            Console.WriteLine("Main Menu");
-            Console.WriteLine("-------------");
+        //        DisplayError("Invalid Option. Try again.");
+        //    } while (true);
 
-            Console.WriteLine("A) dd New Character");
-            Console.WriteLine("V) iew Character");
-            Console.WriteLine("E) dit Character");
-            Console.WriteLine("D) elete Character");
-            Console.WriteLine("Q) uit-");
+        //}
 
-            //Console Input
-            do
-            {
-                string input = Console.ReadLine();
+        //private static char DisplayMainMenu ()
+        //{
 
-                switch (input)
-                {
-                    case "A":
-                    case "a": return 'A';
+        //    Console.WriteLine("Main Menu");
+        //    Console.WriteLine("-------------");
 
-                    case "V":
-                    case "v": return 'V';
+        //    Console.WriteLine("A) dd New Character");
+        //    Console.WriteLine("V) iew Character");
+        //    Console.WriteLine("E) dit Character");
+        //    Console.WriteLine("D) elete Character");
+        //    Console.WriteLine("Q) uit-");
 
-                    case "E":
-                    case "e": return 'E';
+        //    //Console Input
+        //    do
+        //    {
+        //        string input = Console.ReadLine();
 
-                    case "D":
-                    case "d": return 'D';
+        //        switch (input)
+        //        {
+        //            case "A":
+        //            case "a": return 'A';
 
-                    case "Q":
-                    case "q": return 'Q';
-                };
+        //            case "V":
+        //            case "v": return 'V';
 
-                DisplayError("Invalid option");
-            } while (true);
-        }
+        //            case "E":
+        //            case "e": return 'E';
 
-        private static bool ValidateQuit ()
-        {
-            do
-            {
-                Console.WriteLine("Are you sure you would like to quit?(Y/N) ");
-                string quit = Console.ReadLine();
+        //            case "D":
+        //            case "d": return 'D';
 
-                if (quit == "Y" || quit == "y")
-                    return true;
-                else if (quit == "N" || quit == "n")
-                    return false;
-                else
-                    DisplayError("Please enter Y or N ");
-            } while (true);
-        }
+        //            case "Q":
+        //            case "q": return 'Q';
+        //        };
 
-        private static void DisplayError ( string message )
-        {
-            Console.WriteLine(message);
-        }
+        //        DisplayError("Invalid option");
+        //    } while (true);
+        //}
+
+        //private static bool ValidateQuit ()
+        //{
+        //    do
+        //    {
+        //        Console.WriteLine("Are you sure you would like to quit?(Y/N) ");
+        //        string quit = Console.ReadLine();
+
+        //        if (quit == "Y" || quit == "y")
+        //            return true;
+        //        else if (quit == "N" || quit == "n")
+        //            return false;
+        //        else
+        //            DisplayError("Please enter Y or N ");
+        //    } while (true);
+        //}
+
+        //private static void DisplayError ( string message )
+        //{
+        //    Console.WriteLine(message);
+        //}
     }
 }

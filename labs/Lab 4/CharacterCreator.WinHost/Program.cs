@@ -1,9 +1,9 @@
 /*
- * Character Creator - Lab 3
+ * Character Creator - Lab 4
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
- * April 1, 2021
+ * April 23, 2021
  */
 using System;
 using System.Collections.Generic;

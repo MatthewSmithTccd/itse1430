@@ -1,11 +1,12 @@
 ﻿/*
- * Character Creator - Lab 3
+ * Character Creator - Lab 4
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
- * April 1, 2021
+ * April 23, 2021
  */
 using System;
+using System.Linq;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 //using System.Data;
@@ -45,15 +46,36 @@ namespace CharacterCreator.WinHost
         private void OnCharacterNew ( object sender, EventArgs e )
         {
             var form = new CharacterDetailForm();
+            do
+            {
+                if (form.ShowDialog(this) == DialogResult.Cancel)
+                    return;
 
-            if (form.ShowDialog(this) == DialogResult.Cancel)
-                return;
+                try
+                {
+                    _database.Add(form.Character);
+                    break;
+                }catch (ArgumentException ex)
+                {
+                    DisplayError("Add Failed", "You didn't pass the args right.");
+                }catch (Exception ex)
+                {
+                    DisplayError("Add Failed", ex.Message);
+                }
+                //if (String.IsNullOrEmpty(error))
+                //    break;
 
-            //TODO: "Save" the character
-            _character = form.Character;
+                //    DisplayError("Add failed", error);
+
+                //_character = form.Character;
+            } while (true);
 
             UpdateUI();
+        }
 
+        private void DisplayError ( string title, string message )
+        {
+            MessageBox.Show(this, message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private Character GetSelectedCharacter ()
@@ -63,15 +85,25 @@ namespace CharacterCreator.WinHost
 
         private void UpdateUI ()
         {
-            //TODO: Clean up
-            var count = (_character != null) ? 1 : 0;
-            Character[] characters = new Character[count];
-            if (_character != null)
-                characters[0] = _character;
+            //TODO: Story 6 calls for this code to be used but when there is no character it gives weird message after deleting a char
+            //var binding = new BindingSource();
+            //binding.DataSource = _database.GetAll();
 
-            listCharacters.DataSource = characters;
-            listCharacters.DisplayMember = "Title";
-            //listCharacters.ValueMember = "Id";
+            //listCharacters.DataSource = binding;
+            //listCharacters.DisplayMember = nameof(Character.Name);
+
+            listCharacters.DisplayMember = "Name";
+            listCharacters.ValueMember = "Id";
+            try
+            {
+                var characters = _database.GetAll();
+                listCharacters.DataSource = characters.ToArray();
+            } catch (Exception e)
+            {
+                DisplayError("Error retrieving movies", e.Message);
+
+                listCharacters.DataSource = new Character[0];
+            }
         }
 
         private void OnCharacterDelete ( object sender, EventArgs e )
@@ -85,8 +117,13 @@ namespace CharacterCreator.WinHost
             if (result != DialogResult.Yes)
                 return;
 
-            //Delete" the movie
-            _character = null;
+            try
+            {
+                _database.Delete(character.Id);
+            } catch (Exception ex)
+            {
+                DisplayError("Delete Failed", ex.Message);
+            };
 
             UpdateUI();
         }
@@ -94,22 +131,37 @@ namespace CharacterCreator.WinHost
         private void OnCharacterEdit ( object sender, EventArgs e )
         {
             var character = GetSelectedCharacter();
-            if (_character == null)
+            if (character == null)
                 return;
 
             var form = new CharacterDetailForm();
             form.Character = character;
             form.Text = "Edit Character";
+            do
+            {
+                if (form.ShowDialog(this) == DialogResult.Cancel)
+                    return;
 
-            if (form.ShowDialog(this) == DialogResult.Cancel)
-                return;
+                //"Save" the character
+                try
+                {
+                    _database.Update(character.Id, form.Character);
+                    break;
+                } catch (Exception ex)
+                {
+                    DisplayError("Add Failed", ex.Message);
+                };
+                //_database.Update(character.Id, form.Character);
+                //if (String.IsNullOrEmpty(error))
+                //    break;
 
-            //"Save" the character
-            _character = form.Character;
+                //DisplayError("Add Failed", error);
 
+            } while (true);
             UpdateUI();
         }
 
-        private Character _character;
+        //private Character _character;
+        private readonly ICharacterRoster _database = new Memory.MemoryCharacterRoster();
     }
 }

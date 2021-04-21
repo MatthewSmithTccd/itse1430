@@ -1,15 +1,17 @@
 ﻿/*
- * Character Creator - Lab 3
+ * Character Creator - Lab 4
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
- * April 1, 2021
+ * April 23, 2021
  */
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CharacterCreator
 {
-    public class Character
+    public class Character : IValidatableObject
     {
         
         private string _name = "";
@@ -27,59 +29,38 @@ namespace CharacterCreator
             return Name;
         }
 
-        /// <summary>Validates the character data is correct.</summary>
-        /// <param name="error">The error message if any.</param>
-        /// <returns>True if character is valid.</returns>
-        public bool Validate ( out string error )
+        public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
-            //Title is required
             if (String.IsNullOrEmpty(Name))
-            {
-                error = "Name is required.";
-                return false;
-            };
+                yield return new ValidationResult("Name is required.");
 
             if (String.IsNullOrEmpty(Profession))
-            {
-                error = "Profession is required.";
-                return false;
-            };
+                yield return new ValidationResult("Profession is required.");
 
             if (String.IsNullOrEmpty(Race))
-            {
-                error = "Race is required.";
-                return false;
-            };
+                yield return new ValidationResult("Race is required.");
 
+            //Attributes between 1-100
             if (StrengthAttribute < 0 || StrengthAttribute > 100)
-            {
-                error = "Must be between 1-100";
-                return false;
-            };
-            if (IntelligenceAttribute < 0 || IntelligenceAttribute > 100)
-            {
-                error = "Must be between 1-100";
-                return false;
-            };
-            if (AgilityAttribute < 0 || AgilityAttribute > 100)
-            {
-                error = "Must be between 1-100";
-                return false;
-            };
-            if (ConstitutionAttribute < 0 || ConstitutionAttribute > 100)
-            {
-                error = "Must be between 1-100";
-                return false;
-            };
-            if (CharismaAttribute < 0 || CharismaAttribute > 100)
-            {
-                error = "Must be between 1-100";
-                return false;
-            };
+                yield return new ValidationResult("Strength attribute must be between 1-100.");
 
-            error = "";
-            return true;
+            if (IntelligenceAttribute < 0 || IntelligenceAttribute > 100)
+                yield return new ValidationResult("Intelligence attribute must be between 1-100.");
+            
+            if (AgilityAttribute < 0 || AgilityAttribute > 100)
+                yield return new ValidationResult("Agility attribute must be between 1-100.");
+            
+            if (ConstitutionAttribute < 0 || ConstitutionAttribute > 100)
+                yield return new ValidationResult("Constitution attribute must be between 1-100.");
+            
+            if (CharismaAttribute < 0 || CharismaAttribute > 100)
+                yield return new ValidationResult("Charisma attribute must be between 1-100.");
         }
+
+        /// <summary>
+        /// Unique identifier of the movie.
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
