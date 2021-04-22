@@ -182,7 +182,9 @@ namespace MovieLibrary.WinHost
                 //    1. They trigger a full enumeration of the entire items
                 //    2. No further deferred execution
                 //    3. Besides actually needing an array or list it is useful when you must ensure IEnumerable<T> code has fully executed
-                var movies = _database.GetAll();
+                var movies = from m in _database.GetAll()
+                             orderby m.Title, m.ReleaseYear
+                             select m;
 
                 //Can bind listbox using Items or DataSource            
                 lstMovies.DataSource = movies.ToArray();
@@ -195,10 +197,10 @@ namespace MovieLibrary.WinHost
         }
 
         // Connection strings - describe what to talk to (key=value;)
-        //  Server - machine hosting the database (can be . for local machine)
-        //  Database - database to connect to
-        //  Security - who is connecting
-        //  Others - additional features and options
+        //   Server - machine hosting the database (can be . for local machine)
+        //   Database - database to connect to
+        //   Security - who is connecting
+        //   Others - additional features and options
         private readonly IMovieDatabase _database = new SqlServer.SqlServerMovieDatabase(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=MovieDb;Integrated Security=True;");
 
         #endregion
