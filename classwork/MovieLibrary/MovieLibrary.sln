@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieLibrary.WinHost", "Mov
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MovieDb", "MovieDb\MovieDb.sqlproj", "{BDE72751-B36A-499E-81E4-7FB8951B67F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.SqlServer", "MovieLibrary.SqlServer\MovieLibrary.SqlServer.csproj", "{5CAF7BBD-BD78-4F48-BA5D-DA08C959B552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieLibrary.SqlServer", "MovieLibrary.SqlServer\MovieLibrary.SqlServer.csproj", "{5CAF7BBD-BD78-4F48-BA5D-DA08C959B552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.WebHost", "MovieLibrary.WebHost\MovieLibrary.WebHost.csproj", "{96C37C2D-1A6F-4056-ACE8-848F7F184316}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{5CAF7BBD-BD78-4F48-BA5D-DA08C959B552}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CAF7BBD-BD78-4F48-BA5D-DA08C959B552}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CAF7BBD-BD78-4F48-BA5D-DA08C959B552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96C37C2D-1A6F-4056-ACE8-848F7F184316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96C37C2D-1A6F-4056-ACE8-848F7F184316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96C37C2D-1A6F-4056-ACE8-848F7F184316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96C37C2D-1A6F-4056-ACE8-848F7F184316}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

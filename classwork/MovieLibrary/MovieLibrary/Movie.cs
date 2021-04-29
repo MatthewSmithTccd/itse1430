@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace MovieLibrary
 {
@@ -61,7 +62,10 @@ namespace MovieLibrary
         //}
         //public void SetAgeInYears ( int year ) {}                
 
+        //Required - validates that property is not null
+
         /// <summary>Gets or sets the title.</summary>
+        [RequiredAttribute(AllowEmptyStrings = false)]
         public string Title //()
         {
             // use an expression body
@@ -84,6 +88,8 @@ namespace MovieLibrary
         }
 
         /// <summary>Gets or sets the description.</summary>
+        //[Required]
+        [StringLength(100)]
         public string Description
         {
             //get { return (_description != null) ? _description : "";  }
@@ -98,6 +104,7 @@ namespace MovieLibrary
         //    set { _releaseYear = value; }
         //}
         //private int _releaseYear = 1900;
+        [RangeAttribute(1900, 2100)]
         public int ReleaseYear { get; set; } = MinimumReleaseYear; // = 1900
         //public int ReleaseYear2 = 1900;
 
@@ -110,9 +117,12 @@ namespace MovieLibrary
         //private int _runLength;
 
         //Auto property syntax - compiler will auto-generate the full property
+        [RangeAttribute(0, Int32.MaxValue, ErrorMessage = "Run Length must be greater than or equal to 0.")]
         public int RunLength { get; set; }
 
         /// <summary>Gets or sets the rating.</summary>
+        //[RequiredAttribute(AllowEmptyStrings = false)]
+        [Required(AllowEmptyStrings = false)]
         public string Rating
         {
             //get { return (_rating != null) ? _rating : ""; }
@@ -155,6 +165,7 @@ namespace MovieLibrary
 
         public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
+            return Enumerable.Empty<ValidationResult>();
             //var obj1 = Validate(...);
             //foreach (var obj in obj1)
             //    ;
@@ -164,20 +175,20 @@ namespace MovieLibrary
 
             //var errors = new List<ValidationResult>();
 
-            //Title is required
-            if (String.IsNullOrEmpty(Title))
-                //errors.Add(new ValidationResult("Title is required."));
-                yield return new ValidationResult("Title is required.");
+            //Title is required - commented out after adding - [RequiredAttribute()]
+            //if (String.IsNullOrEmpty(Title))
+            //    //errors.Add(new ValidationResult("Title is required."));
+            //    yield return new ValidationResult("Title is required.");
 
             //Release year >= 1900
-            if (ReleaseYear < 1900)
-                //errors.Add(new ValidationResult("Release year must be >= 1900."));
-                yield return new ValidationResult("Release year must be >= 1900.");
+            //if (ReleaseYear < 1900)
+            //    //errors.Add(new ValidationResult("Release year must be >= 1900."));
+            //    yield return new ValidationResult("Release year must be >= 1900.");
 
             //Run length >= 0
-            if (RunLength < 0)
-                //errors.Add(new ValidationResult("Run length must be >= 0."));
-                yield return new ValidationResult("Run length must be >= 0.");
+            //if (RunLength < 0)
+            //    //errors.Add(new ValidationResult("Run length must be >= 0."));
+            //    yield return new ValidationResult("Run length must be >= 0.");
 
             //return errors;
         }
