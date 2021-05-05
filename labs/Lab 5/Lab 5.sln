@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterCreator.ConsoleHos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterCreator", "CharacterCreator\CharacterCreator.csproj", "{50AA69B1-954A-4347-8774-3D1C7D7197ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterCreator.WinHost", "CharacterCreator.WinHost\CharacterCreator.WinHost.csproj", "{75274B35-A39F-4268-96DB-92983B74B310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterCreator.WinHost", "CharacterCreator.WinHost\CharacterCreator.WinHost.csproj", "{75274B35-A39F-4268-96DB-92983B74B310}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CharacterDb", "..\CharacterDb\CharacterDb.sqlproj", "{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterCreator.SqlServer", "CharacterCreator.SqlServer\CharacterCreator.SqlServer.csproj", "{6095A100-DC01-444A-A9D0-437F9173CDE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,16 @@ Global
 		{75274B35-A39F-4268-96DB-92983B74B310}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75274B35-A39F-4268-96DB-92983B74B310}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75274B35-A39F-4268-96DB-92983B74B310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EB1721-FFFA-40D9-91B3-E9DDC5EECCDC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6095A100-DC01-444A-A9D0-437F9173CDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6095A100-DC01-444A-A9D0-437F9173CDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6095A100-DC01-444A-A9D0-437F9173CDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6095A100-DC01-444A-A9D0-437F9173CDE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

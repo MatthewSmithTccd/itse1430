@@ -24,10 +24,7 @@ namespace CharacterCreator
         private int _constitutionAttribute;
         private int _charismaAttribute;
 
-        public override string ToString ()
-        {
-            return Name;
-        }
+        public override string ToString () => Name;
 
         public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {

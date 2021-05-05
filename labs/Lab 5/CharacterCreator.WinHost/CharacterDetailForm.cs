@@ -52,7 +52,7 @@ namespace CharacterCreator.WinHost
             var character = SaveCharacter();
 
             //Validation
-            var errors = new ObjectValidator().TryValidate(character);
+            var errors = ObjectValidator.TryValidate(character);
             //if (!character.Validate(out var error))
             if (errors.Count > 0)
             {

@@ -11,10 +11,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CharacterCreator
 {
-    public class ObjectValidator
+    public static class ObjectValidator
     {
 
-        public List<ValidationResult> TryValidate ( IValidatableObject value )
+        public static List<ValidationResult> TryValidate ( IValidatableObject value )
         {
             var context = new ValidationContext(value);
             var errors = new List<ValidationResult>();
@@ -24,7 +24,7 @@ namespace CharacterCreator
             return errors;
         }
 
-        public void Validate ( IValidatableObject value )
+        public static void Validate ( IValidatableObject value )
         {
             var context = new ValidationContext(value);
 

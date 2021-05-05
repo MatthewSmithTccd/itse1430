@@ -162,6 +162,6 @@ namespace CharacterCreator.WinHost
         }
 
         //private Character _character;
-        private readonly ICharacterRoster _database = new Memory.MemoryCharacterRoster();
+        private readonly ICharacterRoster _database = new SqlServer.SqlServerCharacterRoster(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=CharacterDb;Integrated Security=True;");
     }
 }
