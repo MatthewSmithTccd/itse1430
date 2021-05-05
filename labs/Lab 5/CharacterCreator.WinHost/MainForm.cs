@@ -25,6 +25,15 @@ namespace CharacterCreator.WinHost
             InitializeComponent();
         }
 
+        protected override void OnLoad ( EventArgs e )
+        {
+            base.OnLoad(e);
+
+            var movies = _database.GetAll();
+
+            UpdateUI();
+        }
+
         private void OnFileExit ( object sender, EventArgs e )
         {
             //Display a confirmation and quit if yes
@@ -61,7 +70,7 @@ namespace CharacterCreator.WinHost
                 }catch (Exception ex)
                 {
                     DisplayError("Add Failed", ex.Message);
-                }
+                };
                 //if (String.IsNullOrEmpty(error))
                 //    break;
 
@@ -97,13 +106,14 @@ namespace CharacterCreator.WinHost
             try
             {
                 var characters = _database.GetAll();
+                                 
                 listCharacters.DataSource = characters.ToArray();
             } catch (Exception e)
             {
                 DisplayError("Error retrieving movies", e.Message);
 
                 listCharacters.DataSource = new Character[0];
-            }
+            };
         }
 
         private void OnCharacterDelete ( object sender, EventArgs e )
