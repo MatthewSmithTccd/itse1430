@@ -170,10 +170,10 @@ namespace CharacterCreator.WinHost
             this.cbProfession.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbProfession.FormattingEnabled = true;
             this.cbProfession.Items.AddRange(new object[] {
-            "Fighter ",
-            "Hunter ",
-            "Priest ",
-            "Rogue ",
+            "Fighter",
+            "Hunter",
+            "Priest",
+            "Rogue",
             "Wizard"});
             this.cbProfession.Location = new System.Drawing.Point(95, 66);
             this.cbProfession.Name = "cbProfession";
@@ -186,10 +186,10 @@ namespace CharacterCreator.WinHost
             this.cbRace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbRace.FormattingEnabled = true;
             this.cbRace.Items.AddRange(new object[] {
-            "Dwarf ",
-            "Elf ",
+            "Dwarf",
+            "Elf",
             "Gnome",
-            "Half-Elf ",
+            "Half-Elf",
             "Human"});
             this.cbRace.Location = new System.Drawing.Point(95, 107);
             this.cbRace.Name = "cbRace";

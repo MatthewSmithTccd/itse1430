@@ -71,12 +71,7 @@ namespace CharacterCreator.WinHost
                 {
                     DisplayError("Add Failed", ex.Message);
                 };
-                //if (String.IsNullOrEmpty(error))
-                //    break;
 
-                //    DisplayError("Add failed", error);
-
-                //_character = form.Character;
             } while (true);
 
             UpdateUI();
@@ -94,13 +89,6 @@ namespace CharacterCreator.WinHost
 
         private void UpdateUI ()
         {
-            //TODO: Story 6 calls for this code to be used but when there is no character it gives weird message after deleting a char
-            //var binding = new BindingSource();
-            //binding.DataSource = _database.GetAll();
-
-            //listCharacters.DataSource = binding;
-            //listCharacters.DisplayMember = nameof(Character.Name);
-
             listCharacters.DisplayMember = "Name";
             listCharacters.ValueMember = "Id";
             try

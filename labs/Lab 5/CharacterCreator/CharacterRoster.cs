@@ -29,18 +29,10 @@ namespace CharacterCreator
             if (existing != null)
             {
                 throw new InvalidOperationException("Character name must be unique.");
-                //error = "Character name must be unique";
-                //return null;
             };
 
             //Add the character
-            //replacing with the suggested code from the assignment
-            //character.Id = ++_id;
-            //character.Id = ++_nextId;
-            //_characters.Add(CloneCharacter(character));
             return AddCore(character);
-            //error = null;
-            //return character;
         }
 
         /// <summary>
@@ -56,7 +48,6 @@ namespace CharacterCreator
             {
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
             };
-            //error = null;
 
             //Delete
             DeleteCore(id);
@@ -71,7 +62,6 @@ namespace CharacterCreator
             {
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
             };
-            //error = null;
 
             //Get
             return GetCore(id);

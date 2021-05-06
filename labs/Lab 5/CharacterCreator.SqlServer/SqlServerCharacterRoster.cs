@@ -67,7 +67,6 @@ namespace CharacterCreator.SqlServer
                     CommandType = System.Data.CommandType.StoredProcedure
                 };
 
-                //Always use parameterized queries
                 cmd.Parameters.AddWithValue("@id", id);
 
                 //No result expected
@@ -123,10 +122,8 @@ namespace CharacterCreator.SqlServer
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", name);
 
-                //Equivalent to a Stream/BinaryReader - must be disposed
                 using (var reader = cmd.ExecuteReader())
                 {
-                    //Reads next row, if any
                     while (reader.Read())
                     {
                         return new Character() {
@@ -134,7 +131,7 @@ namespace CharacterCreator.SqlServer
                             Name = reader.GetString("Name"),
                             Profession = reader.GetString("Profession"),
                             Race = reader.GetString("Race"),
-                            Biography = reader.GetString("Description"),
+                            Biography = reader.IsDBNull("Description") ? null : reader.GetString("Description"),
                             StrengthAttribute = reader.GetFieldValue<int>("Attribute1"),
                             IntelligenceAttribute = reader.GetFieldValue<int>("Attribute2"),
                             AgilityAttribute = reader.GetFieldValue<int>("Attribute3"),
@@ -156,10 +153,8 @@ namespace CharacterCreator.SqlServer
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
 
-                //Equivalent to a Stream/BinaryReader - must be disposed
                 using (var reader = cmd.ExecuteReader())
                 {
-                    //Reads next row, if any
                     while (reader.Read())
                     {
                         return new Character() {
@@ -167,7 +162,7 @@ namespace CharacterCreator.SqlServer
                             Name = reader.GetString("Name"),
                             Profession = reader.GetString("Profession"),
                             Race = reader.GetString("Race"),
-                            Biography = reader.GetString("Description"),
+                            Biography = reader.IsDBNull("Description") ? null : reader.GetString("Description"),
                             StrengthAttribute = reader.GetFieldValue<int>("Attribute1"),
                             IntelligenceAttribute = reader.GetFieldValue<int>("Attribute2"),
                             AgilityAttribute = reader.GetFieldValue<int>("Attribute3"),
