@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Character Creator - Lab 5
+ * ITSE 1430
+ * Spring 2021
+ * Matthew Smith
+ * May 5, 2021
+ */
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;

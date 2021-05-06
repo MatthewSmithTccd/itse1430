@@ -1,9 +1,9 @@
 ﻿/*
- * Character Creator - Lab 4
+ * Character Creator - Lab 5
  * ITSE 1430
  * Spring 2021
  * Matthew Smith
- * April 23, 2021
+ * May 5, 2021
  */
 using System;
 using System.Linq;
@@ -161,11 +161,6 @@ namespace CharacterCreator.WinHost
                 {
                     DisplayError("Add Failed", ex.Message);
                 };
-                //_database.Update(character.Id, form.Character);
-                //if (String.IsNullOrEmpty(error))
-                //    break;
-
-                //DisplayError("Add Failed", error);
 
             } while (true);
             UpdateUI();
